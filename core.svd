@@ -1,0 +1,2805 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<device
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    schemaVersion="1.3.5"
+    xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_3_5.xsd">
+    <name>CM33</name>
+    <addressUnitBits>8</addressUnitBits>
+    <width>32</width>
+    <size>32</size>
+    <access>read-write</access>
+    <resetValue>0x00000000</resetValue>
+    <resetMask>0xFFFFFFFF</resetMask>
+    <peripherals>
+        <peripheral>
+            <name>SYSTICK</name>
+            <description>SysTick Timer</description>
+            <baseAddress>0xE000E010</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x20</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>SysTick Calibration Value Register</name>
+                    <displayName>SYST_CALIB</displayName>
+                    <description>Reads the SysTick timer calibration value and parameters for the selected Security state</description>
+                    <addressOffset>0xC</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>NOREF</name>
+                            <description
+                                >No reference. Indicates whether the IMPLEMENTATION DEFINED reference clock is implemented</description
+                            >
+                            <bitRange>[31:31]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Reference clock is implemented</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Reference clock is not implemented</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SKEW</name>
+                            <description>Skew. Indicates whether the 10ms calibration value is exact</description>
+                            <bitRange>[30:30]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>TENMS calibration value is exact</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>TENMS calibration value is inexact</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>TENMS</name>
+                            <description>Ten milliseconds</description>
+                            <bitRange>[23:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>SysTick Control and Status Register</name>
+                    <displayName>CSR</displayName>
+                    <description>Controls the SysTick timer and provides status data for the selected Security state</description>
+                    <addressOffset>0x0</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>COUNTFLAG</name>
+                            <description
+                                >Count flag. Indicates whether the counter has counted to zero since the last read of this
+                                register</description
+                            >
+                            <bitRange>[16:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Timer has not counted to 0</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Timer has counted to 0</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CLKSOURCE</name>
+                            <description>Clock source. Indicates the SysTick clock source</description>
+                            <bitRange>[2:2]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <name>external</name>
+                                    <description>Uses the IMPLEMENTATION DEFINED external reference clock</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>processor</name>
+                                    <description>Uses the PE clock</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>TICKINT</name>
+                            <description>Tick interrupt</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <name>interrupt_disabled</name>
+                                    <description>Count to 0 does not affect the SysTick exception status</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>interrupt_enabled</name>
+                                    <description>Count to 0 changes the SysTick exception status to pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ENABLE</name>
+                            <description>SysTick enable. Indicates the enabled status of the SysTick counter</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Counter is disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Counter is operating</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>SysTick Current Value Register</name>
+                    <displayName>CVR</displayName>
+                    <description>Reads or clears the SysTick timer current counter value for the selected Security state</description>
+                    <addressOffset>0x8</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>CURRENT</name>
+                            <description>Reset counter value</description>
+                            <bitRange>[23:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>SysTick Reload Value Register</name>
+                    <displayName>RVR</displayName>
+                    <description>Provides access SysTick timer counter reload value for the selected Security state</description>
+                    <addressOffset>0x4</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>RELOAD</name>
+                            <description>Counter reload value</description>
+                            <bitRange>[23:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral>
+            <name>NVIC</name>
+            <description>Nested Vectored Interrupt Controller</description>
+            <baseAddress>0xE000E100</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x380</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Interrupt Active Bit Register %s</name>
+                    <displayName>NVIC_IABR_%s</displayName>
+                    <description>For each group of 32 interrupts, shows the active state of each interrupt</description>
+                    <addressOffset>0x200</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>ACTIVE_%s</name>
+                            <description
+                                >Active state. For ACTIVE[m] in NVIC_IABRn, indicates the active state for interrupt 32n+m</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Interrupt not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Interrupt is active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Clear Enable Register %s</name>
+                    <displayName>NVIC_ICER_%s</displayName>
+                    <description>Clears or reads the enabled state of each group of 32 interrupts</description>
+                    <addressOffset>0x80</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>CLRENA_%s</name>
+                            <description>Clear enable. For CLRENA[m] in NVIC_ICERn, allows interrupt 32n + m to be disabled</description>
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Disable interrupt 32n + m</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Clear Pending Register %s</name>
+                    <displayName>NVIC_ICPR_%s</displayName>
+                    <description>Clears or reads the pending state of each group of 32 interrupts</description>
+                    <addressOffset>0x180</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>CLRPEND_%s</name>
+                            <description>Clear pending. For CLRPEND[m] in NVIC_ICPRn, allows interrupt 32n + m to be unpended</description>
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Clear pending state of interrupt 32n + m</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Priority Register %s</name>
+                    <displayName>NVIC_IPR_%s</displayName>
+                    <description>Sets or reads interrupt priorities</description>
+                    <addressOffset>0x300</addressOffset>
+                    <dim>123</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>PRI_Nm</name>
+                            <description>Priority 'N'+m</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Set Enable Register %s</name>
+                    <displayName>NVIC_ISER_%s</displayName>
+                    <description>Enables or reads the enabled state of each group of 32 interrupts</description>
+                    <addressOffset>0x0</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>SETENA_%s</name>
+                            <description>Set enable. For SETENA[m] in NVIC_ISERn, allows interrupt 32n + m to be set enabled</description>
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Enable interrupt 32n + m</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Set Pending Register %s</name>
+                    <displayName>NVIC_ISPR_%s</displayName>
+                    <description>Enables or reads the pending state of each group of 32 interrupts</description>
+                    <addressOffset>0x100</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>SETPEND_%s</name>
+                            <description>Set pending. For SETPEND[m] in NVIC_ISPRn, allows interrupt 32n + m to be set pending</description>
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Pend interrupt 32n + m</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Target Non-secure Register %s</name>
+                    <displayName>NVIC_ITNS_%s</displayName>
+                    <description
+                        >For each group of 32 interrupts, determines whether each interrupt targets Non-secure or Secure state</description
+                    >
+                    <addressOffset>0x280</addressOffset>
+                    <dim>15</dim>
+                    <dimIncrement>4</dimIncrement>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>ITNS_R</name>
+                            <description>Interrupt Targets Non-secure</description>
+                            <bitRange>[31:0]</bitRange>
+                            <dim>32</dim>
+                            <dimIncrement>1</dimIncrement>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Interrupt targets Secure state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Interrupt targets Non-secure state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral>
+            <name>SCB</name>
+            <description>System Control Block</description>
+            <baseAddress>0xE000ED00</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x90</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>CPUID Base Register</name>
+                    <displayName>CPUID</displayName>
+                    <description
+                        >Provides identification information for the PE, including an implementer code for the device and a device ID
+                        number</description
+                    >
+                    <addressOffset>0x0</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>Implementer</name>
+                            <description
+                                >Implementer code. This field must hold an implementer code that has been assigned by ARM</description
+                            >
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>Variant</name>
+                            <description>Variant number. IMPLEMENTATION DEFINED variant number</description>
+                            <bitRange>[23:20]</bitRange>
+                        </field>
+                        <field>
+                            <name>Architecture</name>
+                            <description>Architecture version. Defines the Architecture implemented by the PE</description>
+                            <bitRange>[19:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>PartNo</name>
+                            <description>Part number. IMPLEMENTATION DEFINED primary part number for the device</description>
+                            <bitRange>[15:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>Revision</name>
+                            <description>Revision number. IMPLEMENTATION DEFINED revision number for the device</description>
+                            <bitRange>[3:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Interrupt Control and State Register</name>
+                    <displayName>ICSR</displayName>
+                    <description>Controls and provides status information for NMI, PendSV, SysTick and interrupts</description>
+                    <addressOffset>0x4</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>NMIPENDSET</name>
+                            <description>Pend NMI set. Allows the NMI exception to be set as pending</description>
+                            <bitRange>[31:31]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>set pending</name>
+                                    <description>Sets the NMI exception pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>NMIPENDCLR</name>
+                            <description>Pend NMI clear. Allows the NMI exception pend state to be cleared</description>
+                            <bitRange>[30:30]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Clear pending status</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PENDSVSET</name>
+                            <description
+                                >Pend PendSV set. Indicates whether the PendSV for the selected Security state exception is
+                                pending</description
+                            >
+                            <bitRange>[28:28]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>PendSV exception not pending</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                     <name>set pending</name>
+                                    <description>PendSV exception pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PENDSVCLR</name>
+                            <description>Pend PendSV clear</description>
+                            <bitRange>[27:27]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>clear</name>
+                                    <description>Clear pending status</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PENDSTSET</name>
+                            <description
+                                >Pend SysTick set. Indicates whether the SysTick for the selected Security state exception is
+                                pending</description
+                            >
+                            <bitRange>[26:26]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <name>cleared</name>
+                                    <description>SysTick exception not pending</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>set_pending</name>
+                                    <description>SysTick exception pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PENDSTCLR</name>
+                            <description>Pend SysTick clear</description>
+                            <bitRange>[25:25]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No effect</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>clear</name>
+                                    <description>Clear pending status</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>STTNS</name>
+                            <description>SysTick Targets Non-secure</description>
+                            <bitRange>[24:24]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SysTick is Secure</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SysTick is Non-secure</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ISRPREEMPT</name>
+                            <description>Interrupt preempt</description>
+                            <bitRange>[23:23]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Will not service</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Will service a pending exception</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ISRPENDING</name>
+                            <description
+                                >Interrupt pending. Indicates whether an external interrupt, generated by the NVIC, is pending</description
+                            >
+                            <bitRange>[22:22]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No external interrupt pending</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>External interrupt pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VECTPENDING</name>
+                            <description
+                                >Vector pending. The exception number of the highest priority pending and enabled interrupt</description
+                            >
+                            <bitRange>[20:12]</bitRange>
+                        </field>
+                        <field>
+                            <name>RETTOBASE</name>
+                            <description
+                                >Return to base. In Handler mode, indicates whether there is more than one active exception</description
+                            >
+                            <bitRange>[11:11]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>There is more than one active exception</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>There is only one active exception</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VECTACTIVE</name>
+                            <description>Vector active. The exception number of the current executing exception</description>
+                            <bitRange>[8:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Vector Table Offset Register</name>
+                    <displayName>VTOR</displayName>
+                    <description>Holds the vector table address for the selected Security state</description>
+                    <addressOffset>0x8</addressOffset>
+                    <access>read-write</access>
+<fields>
+                           <field>
+                               <name>TBLOFF</name>
+                               <description>Bits[31:7] of the vector table address</description>
+                               <bitRange>[31:7]</bitRange>
+                           </field>
+                       </fields>
+
+
+
+
+
+                </register>
+                <register>
+                    <name>Application Interrupt and Reset Control Register</name>
+                    <displayName>AIRCR</displayName>
+                    <description>Sets or returns interrupt control and reset configuration</description>
+                    <addressOffset>0xC</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>VECTKEY</name>
+                            <description
+                                >Vector key. Writes to the AIRCR must be accompanied by a write of the value 0x05FA to this
+                                field</description
+                            >
+                            <bitRange>[31:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                       <description>Do not request a reset</description>
+                                       <value>0</value>
+                                   </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Request reset</description>
+                                    <value>1530</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VECTKEYSTAT</name>
+                            <description
+                                >Vector key status. Returns the bitwise inverse of the value required to be written to VECTKEY</description
+                            >
+                            <bitRange>[31:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>ENDIANNESS</name>
+                            <description>Data endianness. Indicates how the PE interprets the memory system data endianness</description>
+                            <bitRange>[15:15]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Little-endian</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Big-endian</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PRIS</name>
+                            <description>Prioritize Secure exceptions</description>
+                            <bitRange>[14:14]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Priority ranges of Secure and Non-secure exceptions are identical</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Non-secure exceptions are de-prioritized</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BFHFNMINS</name>
+                            <description>BusFault, HardFault, and NMI Non-secure enable</description>
+                            <bitRange>[13:13]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>BusFault, HardFault, and NMI are Secure</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description
+                                        >BusFault and NMI are Non-secure and exceptions can target Non-secure HardFault</description
+                                    >
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PRIGROUP</name>
+                            <description>Priority grouping</description>
+                            <bitRange>[10:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Group priority [7:1], subpriority [0]</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Group priority [7:2], subpriority [1:0]</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Group priority [7:3], subpriority [2:0]</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Group priority [7:4], subpriority [3:0]</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Group priority [7:5], subpriority [4:0]</description>
+                                    <value>4</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Group priority [7:6], subpriority [5:0]</description>
+                                    <value>5</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SYSRESETREQS</name>
+                            <description>System reset request Secure only</description>
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SYSRESETREQ functionality is available to both Security states</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SYSRESETREQ functionality is only available to Secure state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SYSRESETREQ</name>
+                            <description
+                                >System reset request. This bit allows software or a debugger to request a system reset</description
+                            >
+                            <bitRange>[2:2]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Do not request a system reset</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <name>Request reset</name>
+                                    <description>Request a system reset</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VECTCLRACTIVE</name>
+                            <description>Clear active state</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Do not clear active state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Clear active state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>System Control Register</name>
+                    <displayName>SCR</displayName>
+                    <description>Sets or returns system control data</description>
+                    <addressOffset>0x10</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>SEVONPEND</name>
+                            <description>Send event on pend</description>
+                            <bitRange>[4:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Transitions from inactive to pending are not wakeup events</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Transitions from inactive to pending are wakeup events</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SLEEPDEEPS</name>
+                            <description>Sleep deep secure</description>
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>The SLEEPDEEP bit accessible from both Security states</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>The SLEEPDEEP bit behaves as RAZ/WI when accessed from the Non-secure state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SLEEPDEEP</name>
+                            <description
+                                >Sleep deep. Provides a qualifying hint indicating that waking from sleep might take longer</description
+                            >
+                            <bitRange>[2:2]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Selected sleep state is not deep sleep</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Selected sleep state is deep sleep</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SLEEPONEXIT</name>
+                            <description>Sleep on exit</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Enter sleep state disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Enter sleep state permitted</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Configuration and Control Register</name>
+                    <displayName>CCR</displayName>
+                    <description>Sets or returns configuration and control data</description>
+                    <addressOffset>0x14</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>BP</name>
+                            <description
+                                >Branch prediction enable. Enables program flow prediction for the selected Security state</description
+                            >
+                            <bitRange>[18:18]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Program flow prediction disabled for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Program flow prediction enabled for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>IC</name>
+                            <description
+                                >Instruction cache enable. This is a global enable bit for instruction caches in the selected Security
+                                state.</description
+                            >
+                            <bitRange>[17:17]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Instruction caches disabled for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Instruction caches enabled for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>DC</name>
+                            <description
+                                >Data cache enable. Enables data caching of all data accesses to Normal memory for the selected security
+                                state</description
+                            >
+                            <bitRange>[16:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Data caching disabled for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Data caching enabled for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>STKOFHFNMIGN</name>
+                            <description
+                                >Stack overflow in HardFault and NMI ignore. Controls the effect of a stack limit violation while executing
+                                at a requested priority less than 0 for the Security state with which the stack limit register is
+                                associated</description
+                            >
+                            <bitRange>[10:10]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Stack limit faults not ignored</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Stack limit faults at requested priorities of less than 0 ignored</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BFHFNMIGN</name>
+                            <description
+                                >BusFault in HardFault or NMI ignore. Determines the effect of precise BusFaults on handlers running at a
+                                requested priority less than 0</description
+                            >
+                            <bitRange>[8:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Precise BusFaults not ignored</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Precise BusFaults at requested priorities of less than 0 ignored</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>STKALIGN</name>
+                            <description>Stack alignment. Controls whether the stack is automatically aligned to 8-byte boundary on exception entry</description>
+                            <bitRange>[9:9]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Stack aligned to 4-byte boundary on exception entry</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Stack automatically aligned to 8-byte boundary on exception entry</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>DIV_0_TRP</name>
+                            <description
+                                >Divide by zero trap. Controls the generation of a DIVBYZERO UsageFault when attempting to perform integer
+                                division by zero</description
+                            >
+                            <bitRange>[4:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>DIVBYZERO UsageFault generation disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>DIVBYZERO UsageFault generation enabled</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>UNALIGN_TRP</name>
+                            <description>Unaligned trap. Controls the trapping of unaligned word or halfword accesses</description>
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Unaligned accesses permitted from LDR, LDRH, STR, and STRH</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Any unaligned transaction generates an UNALIGNED UsageFault</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>USERSETMPEND</name>
+                            <description
+                                >User set main pending. Determines whether unprivileged accesses are permitted to pend interrupts via the
+                                STIR</description
+                            >
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Unprivileged accesses to the STIR generate a fault</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Unprivileged accesses to the STIR are permitted</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>System Handler Priority Register 1</name>
+                    <displayName>SHPR1</displayName>
+                    <description>Sets or returns priority for system handlers 4 - 7</description>
+                    <addressOffset>0x18</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>PRI_7</name>
+                            <description>Priority 7. Priority of system handler 7, SecureFault</description>
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_6</name>
+                            <description>Priority 6. Priority of system handler 6, UsageFault</description>
+                            <bitRange>[23:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_5</name>
+                            <description>Priority 5. Priority of system handler 5, BusFault</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_4</name>
+                            <description>Priority 4. Priority of system handler 4, MemManage</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>System Handler Priority Register 2</name>
+                    <displayName>SHPR2</displayName>
+                    <description>Sets or returns priority for system handlers 8 - 11</description>
+                    <addressOffset>0x1C</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>PRI_11</name>
+                            <description>Priority 11. Priority of system handler 11, SVCall</description>
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_10</name>
+                            <description>Reserved, RES0</description>
+                            <bitRange>[23:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_9</name>
+                            <description>Reserved, RES0</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_8</name>
+                            <description>Reserved, RES0</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>System Handler Priority Register 3</name>
+                    <displayName>SHPR3</displayName>
+                    <description>Sets or returns priority for system handlers 12 - 15</description>
+                    <addressOffset>0x20</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>PRI_15</name>
+                            <description>Priority 15. Priority of system handler 15, SysTick</description>
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_14</name>
+                            <description>Priority 14. Priority of system handler 14, PendSV</description>
+                            <bitRange>[23:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_13</name>
+                            <description>Reserved, RES0</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>PRI_12</name>
+                            <description>Priority 12. Priority of system handler 12, DebugMonitor</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>System Handler Control and State Register</name>
+                    <displayName>SHCSR</displayName>
+                    <description>Provides access to the active and pending status of system exceptions</description>
+                    <addressOffset>0x24</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>HARDFAULTPENDED</name>
+                            <description>HardFault exception pended state</description>
+                            <bitRange>[21:21]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>HardFault exception not pending for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>HardFault exception pending for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SECUREFAULTPENDED</name>
+                            <description>SecureFault exception pended state</description>
+                            <bitRange>[20:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SecureFault exception not pending</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SecureFault exception pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SECUREFAULTENA</name>
+                            <description>SecureFault exception enable</description>
+                            <bitRange>[19:19]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SecureFault exception disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SecureFault exception enabled</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>USGFAULTENA</name>
+                            <description>UsageFault exception enable</description>
+                            <bitRange>[18:18]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>UsageFault exception disabled for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>UsageFault exception enabled for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BUSFAULTENA</name>
+                            <description
+                                >BusFault exception enable. The value of this bit defines whether the BusFault exception is
+                                enabled</description
+                            >
+                            <bitRange>[17:17]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>BusFault exception disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>BusFault exception enabled</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MEMFAULTENA</name>
+                            <description>MemManage exception enable</description>
+                            <bitRange>[16:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>MemManage exception disabled for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage exception enabled for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SVCALLPENDED</name>
+                            <description>SVCall exception pended state</description>
+                            <bitRange>[15:15]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SVCall exception not pending for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SVCall exception pending for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BUSFAULTPENDED</name>
+                            <description>BusFault exception pended state</description>
+                            <bitRange>[14:14]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>BusFault exception not pending</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>BusFault exception pending</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MEMFAULTPENDED</name>
+                            <description>MemManage exception pended state</description>
+                            <bitRange>[13:13]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>MemManage exception not pending for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage exception pending for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>USGFAULTPENDED</name>
+                            <description>UsageFault exception pended state</description>
+                            <bitRange>[12:12]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>UsageFault exception not pending for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>UsageFault exception pending for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SYSTICKACT</name>
+                            <description>SysTick exception active state</description>
+                            <bitRange>[11:11]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SysTick exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SysTick exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PENDSVACT</name>
+                            <description>PendSV exception active state</description>
+                            <bitRange>[10:10]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>PendSV exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>PendSV exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MONITORACT</name>
+                            <description>DebugMonitor exception active state</description>
+                            <bitRange>[8:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>DebugMonitor exception not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>DebugMonitor exception active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SVCALLACT</name>
+                            <description>SVCall exception active state</description>
+                            <bitRange>[7:7]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SVCall exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SVCall exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>NMIACT</name>
+                            <description>NMI exception active state</description>
+                            <bitRange>[5:5]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>NMI exception not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>NMI exception active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>SECUREFAULTACT</name>
+                            <description>SecureFault exception active state</description>
+                            <bitRange>[4:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>SecureFault exception not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>SecureFault exception active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>USGFAULTACT</name>
+                            <description>UsageFault exception active state for the selected Security state</description>
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>UsageFault exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>UsageFault exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>HARDFAULTACT</name>
+                            <description>HardFault exception active state</description>
+                            <bitRange>[2:2]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>HardFault exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>HardFault exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BUSFAULTACT</name>
+                            <description>BusFault exception active state</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>BusFault exception not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>BusFault exception active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MEMFAULTACT</name>
+                            <description>MemManage exception active state for the selected Security state</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>MemManage exception not active for the selected Security state</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage exception active for the selected Security state</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Configurable Fault Status Register</name>
+                    <displayName>CFSR</displayName>
+                    <description>Contains the three Configurable Fault Status Registers</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>UFSR</name>
+                            <description>UsageFault Status Register. Provides information on UsageFault exceptions</description>
+                            <bitRange>[31:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>BFSR</name>
+                            <description>BusFault Status Register. Provides information on BusFault exceptions</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>MMFSR</name>
+                            <description>MemManage Fault Status Register. Provides information on MemManage exceptions</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Usage Fault Status Register</name>
+                    <displayName>UFSR</displayName>
+                    <description>Provides information on UsageFault exceptions</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>DIVBYZERO</name>
+                            <description>Divide by zero flag. Indicates whether an integer division by zero error has occurred</description>
+                            <bitRange>[25:25]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>UNALIGNED</name>
+                            <description>Unaligned access flag. Indicates whether an unaligned access error has occurred</description>
+                            <bitRange>[24:24]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>STKOF</name>
+                            <description>Stack overflow flag. Indicates whether a stack overflow error has occurred</description>
+                            <bitRange>[20:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>NOCP</name>
+                            <description
+                                >No coprocessor flag. Indicates whether a coprocessor disabled or not present error has
+                                occurred</description
+                            >
+                            <bitRange>[19:19]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>INVPC</name>
+                            <description>Invalid PC flag. Indicates whether an integrity check error has occurred</description>
+                            <bitRange>[18:18]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>INVSTATE</name>
+                            <description
+                                >Invalid state flag. Indicates whether an EPSR.T or EPSR.IT validity error has occurred</description
+                            >
+                            <bitRange>[17:17]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>UNDEFINSTR</name>
+                            <description
+                                >Undefined instruction flag. Indicates whether an undefined instruction error has occurred</description
+                            >
+                            <bitRange>[16:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Error has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Bus Fault Status Register</name>
+                    <displayName>BFSR</displayName>
+                    <description>Provides information on BusFault exceptions</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>BFARVALID</name>
+                            <description>BFAR valid. Indicates validity of the contents of the BFAR register</description>
+                            <bitRange>[15:15]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>BFAR content not valid</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>BFAR content valid</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>LSPERR</name>
+                            <description
+                                >Lazy state preservation error. Records whether a BusFault occurred during FP lazy state
+                                preservation</description
+                            >
+                            <bitRange>[13:13]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No BusFault occurred during FP lazy state preservation</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>BusFault occurred during FP lazy state preservation</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>STKERR</name>
+                            <description
+                                >Stack error. Records whether a derived BusFault occurred during exception entry stacking</description
+                            >
+                            <bitRange>[12:12]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No derived BusFault occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Derived BusFault occurred during exception entry</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>UNSTKERR</name>
+                            <description
+                                >Unstack error. Records whether a derived BusFault occurred during exception return unstacking</description
+                            >
+                            <bitRange>[11:11]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No derived BusFault occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Derived BusFault occurred during exception return</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>IMPRECISERR</name>
+                            <description>Imprecise error. Records whether an imprecise data access error has occurred</description>
+                            <bitRange>[10:10]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No imprecise data access error has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Imprecise data access error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PRECISERR</name>
+                            <description>Precise error. Records whether a precise data access error has occurred</description>
+                            <bitRange>[9:9]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No precise data access error has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Precise data access error has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>IBUSERR</name>
+                            <description
+                                >Instruction bus error. Records whether a BusFault on an instruction prefetch has occurred</description
+                            >
+                            <bitRange>[8:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No BusFault on instruction prefetch has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>A BusFault on an instruction prefetch has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MemManage Fault Status Register</name>
+                    <displayName>MMFSR</displayName>
+                    <description>Provides information on MemManage exceptions</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>MMARVALID</name>
+                            <description>MMFAR valid flag. Indicates validity of the MMFAR register</description>
+                            <bitRange>[7:7]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>MMFAR content not valid</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MMFAR content valid</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MLSPERR</name>
+                            <description
+                                >MemManage lazy state preservation error flag. Records whether a MemManage fault occurred during FP lazy
+                                state preservation</description
+                            >
+                            <bitRange>[5:5]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No MemManage occurred during FP lazy state preservation</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage occurred during FP lazy state preservation</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MSTKERR</name>
+                            <description
+                                >MemManage stacking error flag. Records whether a derived MemManage fault occurred during exception entry
+                                stacking</description
+                            >
+                            <bitRange>[4:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No derived MemManage occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Derived MemManage occurred during exception entry</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>MUNSTKERR</name>
+                            <description
+                                >MemManage unstacking error flag. Records whether a derived MemManage fault occurred during exception return
+                                unstacking</description
+                            >
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No derived MemManage fault occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Derived MemManage fault occurred during exception return</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>DACCVIOL</name>
+                            <description>Data access violation flag. Records whether a data access violation has occurred</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No MemManage fault on data access has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage fault on data access has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>IACCVIOL</name>
+                            <description
+                                >Instruction access violation. Records whether an instruction related memory access violation has
+                                occurred</description
+                            >
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No MemManage fault on instruction access has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>MemManage fault on instruction access has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>HardFault Status Register</name>
+                    <displayName>HFSR</displayName>
+                    <description>Shows the cause of any HardFaults</description>
+                    <addressOffset>0x2C</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>DEBUGEVT</name>
+                            <description>Debug event. Indicates when a debug event has occurred</description>
+                            <bitRange>[31:31]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No debug event has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred. The Debug Fault Status Register has been updated</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>FORCED</name>
+                            <description>Forced</description>
+                            <bitRange>[30:30]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No priority escalation has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Processor has escalated a configurable-priority exception to HardFault</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VECTTBL</name>
+                            <description>Vector table</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No vector table read fault has occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Debug Fault Status Register</name>
+                    <displayName>DFSR</displayName>
+                    <description>Shows which debug event occurred</description>
+                    <addressOffset>0x30</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>EXTERNAL</name>
+                            <description>External event. Indicates whether an External debug request debug event has occurred</description>
+                            <bitRange>[4:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Debug event has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>VCATCH</name>
+                            <description>Vector Catch event. Indicates whether a Vector catch debug event has occurred</description>
+                            <bitRange>[3:3]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Debug event has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>DWTTRAP</name>
+                            <description>Watchpoint event. Indicates whether a Watchpoint debug event has occurred</description>
+                            <bitRange>[2:2]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Debug event has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>BKPT</name>
+                            <description>Breakpoint event. Indicates whether a breakpoint debug event has occurred</description>
+                            <bitRange>[1:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Debug event has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>HALTED</name>
+                            <description>Halt or step event</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Debug event has not occurred</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Debug event has occurred</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MemManage Fault Address Register</name>
+                    <displayName>MMFAR</displayName>
+                    <description>Shows the address of the memory location that caused an MPU fault</description>
+                    <addressOffset>0x34</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description>Data address for an MemManage fault</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>BusFault Address Register</name>
+                    <displayName>BFAR</displayName>
+                    <description>Shows the address associated with a precise data access BusFault</description>
+                    <addressOffset>0x38</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description>Data address for an BudFault fault</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Auxiliary Fault Status Register</name>
+                    <displayName>AFSR</displayName>
+                    <description>Provides IMPLEMENTATION DEFINED fault status information</description>
+                    <addressOffset>0x3C</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>IMPLEMENTATION DEFINED</name>
+                            <description>IMPLEMENTATION DEFINED. The contents of this field are IMPLEMENTATION DEFINED</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Processor Feature Register 0</name>
+                    <displayName>ID_PFR0</displayName>
+                    <description>Gives top-level information about the instruction set supported by the PE</description>
+                    <addressOffset>0x40</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>State1</name>
+                            <description>State one. T32 instruction set support</description>
+                            <bitRange>[7:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>State0</name>
+                            <description>State two. A32 instruction set support</description>
+                            <bitRange>[3:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>A32 instruction set not implemented</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Processor Feature Register 1</name>
+                    <displayName>ID_PFR1</displayName>
+                    <description>Gives information about the programmers' model and Extensions support</description>
+                    <addressOffset>0x44</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>MProgMod</name>
+                            <description>M programmers' model. Identifies support for the M-Profile programmers' model support</description>
+                            <bitRange>[11:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>Security</name>
+                            <description>Security. Identifies whether the Security Extension is implemented</description>
+                            <bitRange>[7:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Security Extension not implemented</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Security Extension implemented</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Debug Feature Register 0</name>
+                    <displayName>ID_DFR0</displayName>
+                    <description>Provides top level information about the debug system</description>
+                    <addressOffset>0x48</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>MProfDbg</name>
+                            <description>M-profile debug. Indicates the supported M-profile debug architecture</description>
+                            <bitRange>[23:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Halting debug is not implemented</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>ARMv8-M Debug architecture</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Auxiliary Feature Register 0</name>
+                    <displayName>ID_AFR0</displayName>
+                    <description>Provides information about the IMPLEMENTATION DEFINED features of the PE</description>
+                    <addressOffset>0x4C</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>IMPDEFm</name>
+                            <description>IMPLEMENTATION DEFINED. IMPLEMENTATION DEFINED meaning</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Memory Model Feature Register 0</name>
+                    <displayName>ID_MMFR0</displayName>
+                    <description>Provides information about the implemented memory model and memory management support</description>
+                    <addressOffset>0x50</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>AuxReg</name>
+                            <description>Auxiliary Registers. Indicates support for Auxiliary Control Registers</description>
+                            <bitRange>[23:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No Auxiliary Control Registers</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Auxiliary Control Registers supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>TCM</name>
+                            <description>Tightly coupled memories. Indicates support for tightly coupled memories (TCMs)</description>
+                            <bitRange>[19:16]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>None supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>TCMs supported with IMPLEMENTATION DEFINED control</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ShareLvl</name>
+                            <description>Shareability Levels. Indicates the number of shareability levels implemented</description>
+                            <bitRange>[15:12]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>One level of shareability implemented</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Two levels of shareability implemented</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>OuterShr</name>
+                            <description>Outermost Shareability. Indicates the outermost shareability domain implemented</description>
+                            <bitRange>[11:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Implemented as Non-cacheable</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Implemented with hardware coherency support</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Shareability ignored</description>
+                                    <value>15</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>PMSA</name>
+                            <description>Protected memory system architecture</description>
+                            <bitRange>[7:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No Supports</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Supports PMSAv8</description>
+                                    <value>4</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Memory Model Feature Register 2</name>
+                    <displayName>ID_MMFR2</displayName>
+                    <description>Provides information about the implemented memory model and memory management support</description>
+                    <addressOffset>0x58</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>WFIStall</name>
+                            <description>WFI stall. Indicates the support for Wait For Interrupt (WFI) stalling</description>
+                            <bitRange>[27:24]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>WFI never stalls</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>WFI has the ability to stall</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Memory Model Feature Register 3</name>
+                    <displayName>ID_MMFR3</displayName>
+                    <description>Provides information about the implemented memory model and memory management support</description>
+                    <addressOffset>0x5C</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>BPMaint</name>
+                            <description>Branch predictor maintenance. Indicates the supported branch predictor maintenance</description>
+                            <bitRange>[11:8]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>None supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Support for invalidate all of branch predictors</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CMaintSW</name>
+                            <description
+                                >Cache maintenance set/way. Indicates the supported cache maintenance operations by set/way</description
+                            >
+                            <bitRange>[7:4]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>None supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Maintenance by set/way operations supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CMaintVA</name>
+                            <description
+                                >Cache maintenance by address. Indicates the supported cache maintenance operations by address</description
+                            >
+                            <bitRange>[3:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>None supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Maintenance by address and instruction cache invalidate all supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Cache Level ID Register</name>
+                    <displayName>CLIDR</displayName>
+                    <description>Identifies the type of caches implemented and the level of coherency and unification</description>
+                    <addressOffset>0x78</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>ICB</name>
+                            <description
+                                >Inner cache boundary. This field indicates the boundary between inner and outer domain</description
+                            >
+                            <bitRange>[31:30]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Not disclosed in this mechanism</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>L1 cache is the highest inner level</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>L2 cache is the highest inner level</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>L3 cache is the highest inner level</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>LoUU</name>
+                            <description>Level of Unification Uniprocessor</description>
+                            <bitRange>[29:27]</bitRange>
+                        </field>
+                        <field>
+                            <name>LoC</name>
+                            <description
+                                >Level of Coherence. This field indicates the Level of Coherence for the cache hierarchy</description
+                            >
+                            <bitRange>[26:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>LoUIS</name>
+                            <description>Level of Unification Inner Shareable</description>
+                            <bitRange>[23:21]</bitRange>
+                        </field>
+                        <field>
+                            <name>Ctypem</name>
+                            <description>Cache type field m. Indicates the type of cache implemented at level m</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>No cache</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Instruction cache only</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Data cache only</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Separate Instruction And Data Caches</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Unified cache</description>
+                                    <value>4</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Cache Type Register</name>
+                    <displayName>CTR</displayName>
+                    <description>Provides information about the architecture of the caches</description>
+                    <addressOffset>0x7C</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>CWG</name>
+                            <description>Cache Writeback Granule</description>
+                            <bitRange>[27:24]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description
+                                        >Indicates that this register does not provide Cache Writeback Granule information and either the
+                                        architectural maximum of 512 w</description
+                                    >
+                                    <value>0</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>ERG</name>
+                            <description>Exclusives Reservation Granule</description>
+                            <bitRange>[23:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description
+                                        >Indicates that this register does not provide Exclusives Reservation Granule information and the
+                                        architectural maximum of 512 w</description
+                                    >
+                                    <value>0</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>DminLine</name>
+                            <description>Data cache minimum line length</description>
+                            <bitRange>[19:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>IminLine</name>
+                            <description>Instruction cache minimum line length</description>
+                            <bitRange>[3:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Current Cache Size ID register</name>
+                    <displayName>CCSIDR</displayName>
+                    <description>The CCSIDR provides information about the architecture of the currently selected cache</description>
+                    <addressOffset>0x80</addressOffset>
+                    <access>read-only</access>
+                    <fields>
+                        <field>
+                            <name>WT</name>
+                            <description
+                                >Write-Through. Indicates whether the currently selected cache level supports Write-Through</description
+                            >
+                            <bitRange>[31:31]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Not supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>WB</name>
+                            <description>Writeback. Indicates whether the currently selected cache level supports writeback</description>
+                            <bitRange>[30:30]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Not supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>RA</name>
+                            <description
+                                >Read-allocate. Indicates whether the currently selected cache level supports read-allocation</description
+                            >
+                            <bitRange>[29:29]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Not supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>WA</name>
+                            <description
+                                >Write-Allocate. Indicates whether the currently selected cache level supports write-allocation</description
+                            >
+                            <bitRange>[28:28]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Not supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>NumSets</name>
+                            <description>Number of sets. Indicates (Number of sets in the currently selected cache) - 1</description>
+                            <bitRange>[27:13]</bitRange>
+                        </field>
+                        <field>
+                            <name>LineSize</name>
+                            <description
+                                >Line size. Indicates (Log2(Number of words per line in the currently selected cache)) - 2</description
+                            >
+                            <bitRange>[2:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Cache Size Selection Register</name>
+                    <displayName>CSSELR</displayName>
+                    <description
+                        >Selects the current Cache Size ID Register, CCSIDR, by specifying the required cache level and the cache type
+                        (either instruction or data cache)</description
+                    >
+                    <addressOffset>0x84</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>Level</name>
+                            <description>Cache level. Selects which cache level is to be identified</description>
+                            <bitRange>[3:1]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Level 1 cache</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 2 cache</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 3 cache</description>
+                                    <value>2</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 4 cache</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 5 cache</description>
+                                    <value>4</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 6 cache</description>
+                                    <value>5</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Level 7 cache</description>
+                                    <value>6</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>InD</name>
+                            <description
+                                >Instruction not data. Selects whether the instruction or the data cache is to be identified</description
+                            >
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Data or unified cache</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Instruction cache</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Coprocessor Access Control Register</name>
+                    <displayName>CPACR</displayName>
+                    <description>Specifies the access privileges for coprocessors and the FP Extension</description>
+                    <addressOffset>0x88</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>CP11</name>
+                            <description>CP11 Privilege. The value in this field is ignored</description>
+                            <bitRange>[23:22]</bitRange>
+                        </field>
+                        <field>
+                            <name>CP10</name>
+                            <description>CP10 Privilege. Defines the access rights for the floating-point functionality</description>
+                            <bitRange>[21:20]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>All accesses to the FP Extension result in NOCP UsageFault</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Unprivileged accesses to the FP Extension result in NOCP UsageFault</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Full access to the FP Extension</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CPm</name>
+                            <description>Coprocessor m privilege. Controls access privileges for coprocessor m</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Access denied. Any attempted access generates a NOCP UsageFault</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Privileged access only. An unprivileged access generates a NOCP UsageFault</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Full Access</description>
+                                    <value>3</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Non-secure Access Control Register</name>
+                    <displayName>NSACR</displayName>
+                    <description
+                        >Defines the Non-secure access permissions for both the FP Extension and coprocessors CP0 to CP7</description
+                    >
+                    <addressOffset>0x8C</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>CP11</name>
+                            <description>CP11 access. Enables Non-secure access to the Floating-point Extension</description>
+                            <bitRange>[11:11]</bitRange>
+                        </field>
+                        <field>
+                            <name>CP10</name>
+                            <description>CP10 access. Enables Non-secure access to the Floating-point Extension</description>
+                            <bitRange>[10:10]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description
+                                        >Non-secure accesses to the Floating-point Extension generate a NOCP UsageFault</description
+                                    >
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Non-secure access to the Floating-point Extension permitted</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                        <field>
+                            <name>CPm</name>
+                            <description>CPm access. Enables Non-secure access to coprocessor CPm</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Non-secure accesses to this coprocessor generate a NOCP UsageFault</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Non-secure access to this coprocessor permitted</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <peripheral>
+            <name>CMO</name>
+            <description>Cache Maintenance Operations</description>
+            <baseAddress>0xE000EF50</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x2C</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Branch Predictor Invalidate All</name>
+                    <displayName>BPIALL</displayName>
+                    <description>Invalidate all entries from branch predictors</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>Ignored</name>
+                            <description>Ignored. The value written to this field is ignored</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Clean and Invalidate by Address to PoC</name>
+                    <displayName>DCCIMVAC</displayName>
+                    <description>Clean and invalidate data or unified cache line by address to PoC</description>
+                    <addressOffset>0x20</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Clean and Invalidate by Set/Way</name>
+                    <displayName>DCCISW</displayName>
+                    <description>Clean and invalidate data or unified cache line by set/way</description>
+                    <addressOffset>0x24</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>SetWay</name>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description
+                            >
+                            <bitRange>[31:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>Level</name>
+                            <description>Cache level. Cache level to operate on, minus 1</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Clean by Address to PoC</name>
+                    <displayName>DCCMVAC</displayName>
+                    <description>Clean data or unified cache line by address to PoC</description>
+                    <addressOffset>0x18</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Clean by address to PoU</name>
+                    <displayName>DCCMVAU</displayName>
+                    <description>Clean data or unified cache line by address to PoU</description>
+                    <addressOffset>0x14</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache Clean line by Set/Way</name>
+                    <displayName>DCCSW</displayName>
+                    <description>Clean data or unified cache line by set/way</description>
+                    <addressOffset>0x1C</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>SetWay</name>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits [31:32-A], the number of the way to operate on</description
+                            >
+                            <bitRange>[31:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>Level</name>
+                            <description>Cache level. Cache level to operate on, minus 1</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Invalidate by Address to PoC</name>
+                    <displayName>DCIMVAC</displayName>
+                    <description>Invalidate data or unified cache line by address to PoC</description>
+                    <addressOffset>0xC</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Data Cache line Invalidate by Set/Way</name>
+                    <displayName>DCISW</displayName>
+                    <description>Invalidate data or unified cache line by set/way</description>
+                    <addressOffset>0x10</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>SetWay</name>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description
+                            >
+                            <bitRange>[31:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>Level</name>
+                            <description>Cache level. Cache level to operate on, minus 1</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Instruction Cache Invalidate All to PoU</name>
+                    <displayName>ICIALLU</displayName>
+                    <description>Invalidate all instruction caches to PoU</description>
+                    <addressOffset>0x0</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>Ignored</name>
+                            <description>The value written to this field is ignored. Ignored</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Instruction Cache line Invalidate by Address to PoU</name>
+                    <displayName>ICIMVAU</displayName>
+                    <description>Invalidate instruction cache line by address to PoU</description>
+                    <addressOffset>0x8</addressOffset>
+                    <access>write-only</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+    </peripherals>
+</device>
