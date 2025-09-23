@@ -27,7 +27,7 @@ namespace Nvic {
                                                  std::begin(InterruptOffsetTraits<void>::noEnable),
                                                  std::end(InterruptOffsetTraits<void>::noEnable)),
                       "Unable to enable this interrupt, index is out of range");
-    }
+    };
 
     template<>
     struct MakeAction<Action::Disable, Index<Kvasir::Interrupt::systick.index()>>
@@ -36,7 +36,7 @@ namespace Nvic {
                                                  std::begin(InterruptOffsetTraits<void>::noDisable),
                                                  std::end(InterruptOffsetTraits<void>::noDisable)),
                       "Unable to disable this interrupt, index is out of range");
-    }
+    };
     template<>
     struct MakeAction<Action::Read, Index<Kvasir::Interrupt::systick.index()>>
       : decltype(read(SystickRegs::CSR::tickint)){};

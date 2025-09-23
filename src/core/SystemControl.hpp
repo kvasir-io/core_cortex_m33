@@ -29,7 +29,7 @@ namespace Nvic {
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),
                                      std::end(InterruptOffsetTraits<void>::noSetPending)),
           "Unable to set pending on this interrupt, index is out of range");
-    }
+    };
 
     template<>
     struct MakeAction<Action::ClearPending, Index<Interrupt::systick.index()>>
@@ -39,7 +39,7 @@ namespace Nvic {
                                      std::begin(InterruptOffsetTraits<void>::noClearPending),
                                      std::end(InterruptOffsetTraits<void>::noClearPending)),
           "Unable to clear pending on this interrupt, index is out of range");
-    }
+    };
 
     template<int Priority>
     struct PriorityDisambiguator<Priority, Interrupt::systick.index()>
@@ -55,7 +55,7 @@ namespace Nvic {
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),
                                      std::end(InterruptOffsetTraits<void>::noSetPending)),
           "Unable to set pending on this interrupt, index is out of range");
-    }
+    };
 
     template<>
     struct MakeAction<Action::ClearPending, Index<Interrupt::pendSV.index()>>
@@ -65,7 +65,7 @@ namespace Nvic {
                                      std::begin(InterruptOffsetTraits<void>::noClearPending),
                                      std::end(InterruptOffsetTraits<void>::noClearPending)),
           "Unable to clear pending on this interrupt, index is out of range");
-    }
+    };
 
     template<int Priority>
     struct PriorityDisambiguator<Priority, Interrupt::pendSV.index()>
@@ -81,7 +81,7 @@ namespace Nvic {
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),
                                      std::end(InterruptOffsetTraits<void>::noSetPending)),
           "Unable to set pending on this interrupt, index is out of range");
-    }
+    };
 
     // SVCall
     template<int Priority>
