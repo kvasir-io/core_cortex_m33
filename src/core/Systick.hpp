@@ -179,7 +179,7 @@ namespace Systick {
                 static constexpr auto count
                   = std::uint32_t(double(ticksToWait) / double(reloadValue));
                 static constexpr auto last
-                  = std::uint32_t(double(ticksToWait) - double(count) * double(reloadValue));
+                  = std::uint32_t(double(ticksToWait) - (double(count) * double(reloadValue)));
                 std::uint32_t c = count;
                 while(c != 0) {
                     delay_ticks(reloadValue);

@@ -98,7 +98,7 @@ namespace Kvasir { namespace Nvic {
 
     template<int Priority, int I>
     struct PriorityDisambiguator
-      : Detail::PrioritySet<Detail::baseAddress + 0x300 + (I / 4) * 4, I % 4, Priority> {};
+      : Detail::PrioritySet<Detail::baseAddress + 0x300 + ((I / 4) * 4), I % 4, Priority> {};
 
     template<int Priority, int I>
     struct MakeAction<Action::SetPriority<Priority>, Index<I>>
