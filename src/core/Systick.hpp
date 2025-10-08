@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SystemControl.hpp"
+#include "core_peripherals/SCB.hpp"
 #include "core_peripherals/SYSTICK.hpp"
 #include "kvasir/Atomic/Atomic.hpp"
 #include "kvasir/Common/Interrupt.hpp"
@@ -40,6 +41,19 @@ namespace Nvic {
     template<>
     struct MakeAction<Action::Read, Index<Kvasir::Interrupt::systick.index()>>
       : decltype(read(SystickRegs::CSR::tickint)){};
+
+    template<int Priority>
+    struct MakeAction<Action::SetPriority<Priority>, Index<Kvasir::Interrupt::systick.index()>>
+      : decltype(write(Kvasir::Peripheral::SCB::Registers<>::SHPR3::pri_15,
+                       Register::value<Priority>())) {
+        static_assert(15 >= Priority,
+                      "priority on cortex_m33 can only be 0-15 (4 bits implemented)");
+        static_assert(
+          Detail::interuptIndexValid(Interrupt::systick.index(),
+                                     std::begin(InterruptOffsetTraits<void>::noSetPriority),
+                                     std::end(InterruptOffsetTraits<void>::noSetPriority)),
+          "Unable to set priority on this interrupt, index is out of range");
+    };
 }   // namespace Nvic
 
 namespace Systick {
