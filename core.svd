@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<device xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.3.5" xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_3_5.xsd">
+<device
+    xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+    schemaVersion="1.3.5"
+    xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_3_5.xsd">
     <name>CM33</name>
     <addressUnitBits>8</addressUnitBits>
     <width>32</width>
@@ -27,7 +30,9 @@
                     <fields>
                         <field>
                             <name>NOREF</name>
-                            <description>No reference. Indicates whether the IMPLEMENTATION DEFINED reference clock is implemented</description>
+                            <description
+                                >No reference. Indicates whether the IMPLEMENTATION DEFINED reference clock is implemented</description
+                            >
                             <bitRange>[31:31]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -71,8 +76,10 @@
                     <fields>
                         <field>
                             <name>COUNTFLAG</name>
-                            <description>Count flag. Indicates whether the counter has counted to zero since the last read of this
-                                register</description>
+                            <description
+                                >Count flag. Indicates whether the counter has counted to zero since the last read of this
+                                register</description
+                            >
                             <bitRange>[16:16]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -187,7 +194,9 @@
                     <fields>
                         <field>
                             <name>ACTIVE_%s</name>
-                            <description>Active state. For ACTIVE[m] in NVIC_IABRn, indicates the active state for interrupt 32n+m</description>
+                            <description
+                                >Active state. For ACTIVE[m] in NVIC_IABRn, indicates the active state for interrupt 32n+m</description
+                            >
                             <bitOffset>0</bitOffset>
                             <bitWidth>1</bitWidth>
                             <dim>32</dim>
@@ -343,7 +352,9 @@
                 <register>
                     <name>Interrupt Target Non-secure Register %s</name>
                     <displayName>NVIC_ITNS_%s</displayName>
-                    <description>For each group of 32 interrupts, determines whether each interrupt targets Non-secure or Secure state</description>
+                    <description
+                        >For each group of 32 interrupts, determines whether each interrupt targets Non-secure or Secure state</description
+                    >
                     <addressOffset>0x280</addressOffset>
                     <dim>15</dim>
                     <dimIncrement>4</dimIncrement>
@@ -384,14 +395,18 @@
                 <register>
                     <name>CPUID Base Register</name>
                     <displayName>CPUID</displayName>
-                    <description>Provides identification information for the PE, including an implementer code for the device and a device ID
-                        number</description>
+                    <description
+                        >Provides identification information for the PE, including an implementer code for the device and a device ID
+                        number</description
+                    >
                     <addressOffset>0x0</addressOffset>
                     <access>read-only</access>
                     <fields>
                         <field>
                             <name>Implementer</name>
-                            <description>Implementer code. This field must hold an implementer code that has been assigned by ARM</description>
+                            <description
+                                >Implementer code. This field must hold an implementer code that has been assigned by ARM</description
+                            >
                             <bitRange>[31:24]</bitRange>
                         </field>
                         <field>
@@ -456,8 +471,10 @@
                         </field>
                         <field>
                             <name>PENDSVSET</name>
-                            <description>Pend PendSV set. Indicates whether the PendSV for the selected Security state exception is
-                                pending</description>
+                            <description
+                                >Pend PendSV set. Indicates whether the PendSV for the selected Security state exception is
+                                pending</description
+                            >
                             <bitRange>[28:28]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -465,7 +482,7 @@
                                     <value>0</value>
                                 </enumeratedValue>
                                 <enumeratedValue>
-                                     <name>set pending</name>
+                                    <name>set pending</name>
                                     <description>PendSV exception pending</description>
                                     <value>1</value>
                                 </enumeratedValue>
@@ -489,8 +506,10 @@
                         </field>
                         <field>
                             <name>PENDSTSET</name>
-                            <description>Pend SysTick set. Indicates whether the SysTick for the selected Security state exception is
-                                pending</description>
+                            <description
+                                >Pend SysTick set. Indicates whether the SysTick for the selected Security state exception is
+                                pending</description
+                            >
                             <bitRange>[26:26]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -553,7 +572,9 @@
                         </field>
                         <field>
                             <name>ISRPENDING</name>
-                            <description>Interrupt pending. Indicates whether an external interrupt, generated by the NVIC, is pending</description>
+                            <description
+                                >Interrupt pending. Indicates whether an external interrupt, generated by the NVIC, is pending</description
+                            >
                             <bitRange>[22:22]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -568,12 +589,16 @@
                         </field>
                         <field>
                             <name>VECTPENDING</name>
-                            <description>Vector pending. The exception number of the highest priority pending and enabled interrupt</description>
+                            <description
+                                >Vector pending. The exception number of the highest priority pending and enabled interrupt</description
+                            >
                             <bitRange>[20:12]</bitRange>
                         </field>
                         <field>
                             <name>RETTOBASE</name>
-                            <description>Return to base. In Handler mode, indicates whether there is more than one active exception</description>
+                            <description
+                                >Return to base. In Handler mode, indicates whether there is more than one active exception</description
+                            >
                             <bitRange>[11:11]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -599,18 +624,13 @@
                     <description>Holds the vector table address for the selected Security state</description>
                     <addressOffset>0x8</addressOffset>
                     <access>read-write</access>
-<fields>
-                           <field>
-                               <name>TBLOFF</name>
-                               <description>Bits[31:7] of the vector table address</description>
-                               <bitRange>[31:7]</bitRange>
-                           </field>
-                       </fields>
-
-
-
-
-
+                    <fields>
+                        <field>
+                            <name>TBLOFF</name>
+                            <description>Bits[31:7] of the vector table address</description>
+                            <bitRange>[31:7]</bitRange>
+                        </field>
+                    </fields>
                 </register>
                 <register>
                     <name>Application Interrupt and Reset Control Register</name>
@@ -621,14 +641,16 @@
                     <fields>
                         <field>
                             <name>VECTKEY</name>
-                            <description>Vector key. Writes to the AIRCR must be accompanied by a write of the value 0x05FA to this
-                                field</description>
+                            <description
+                                >Vector key. Writes to the AIRCR must be accompanied by a write of the value 0x05FA to this
+                                field</description
+                            >
                             <bitRange>[31:16]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
-                                       <description>Do not request a reset</description>
-                                       <value>0</value>
-                                   </enumeratedValue>
+                                    <description>Do not request a reset</description>
+                                    <value>0</value>
+                                </enumeratedValue>
                                 <enumeratedValue>
                                     <description>Request reset</description>
                                     <value>1530</value>
@@ -637,7 +659,9 @@
                         </field>
                         <field>
                             <name>VECTKEYSTAT</name>
-                            <description>Vector key status. Returns the bitwise inverse of the value required to be written to VECTKEY</description>
+                            <description
+                                >Vector key status. Returns the bitwise inverse of the value required to be written to VECTKEY</description
+                            >
                             <bitRange>[31:16]</bitRange>
                         </field>
                         <field>
@@ -680,7 +704,9 @@
                                     <value>0</value>
                                 </enumeratedValue>
                                 <enumeratedValue>
-                                    <description>BusFault and NMI are Non-secure and exceptions can target Non-secure HardFault</description>
+                                    <description
+                                        >BusFault and NMI are Non-secure and exceptions can target Non-secure HardFault</description
+                                    >
                                     <value>1</value>
                                 </enumeratedValue>
                             </enumeratedValues>
@@ -733,7 +759,9 @@
                         </field>
                         <field>
                             <name>SYSRESETREQ</name>
-                            <description>System reset request. This bit allows software or a debugger to request a system reset</description>
+                            <description
+                                >System reset request. This bit allows software or a debugger to request a system reset</description
+                            >
                             <bitRange>[2:2]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -803,7 +831,9 @@
                         </field>
                         <field>
                             <name>SLEEPDEEP</name>
-                            <description>Sleep deep. Provides a qualifying hint indicating that waking from sleep might take longer</description>
+                            <description
+                                >Sleep deep. Provides a qualifying hint indicating that waking from sleep might take longer</description
+                            >
                             <bitRange>[2:2]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -842,7 +872,9 @@
                     <fields>
                         <field>
                             <name>BP</name>
-                            <description>Branch prediction enable. Enables program flow prediction for the selected Security state</description>
+                            <description
+                                >Branch prediction enable. Enables program flow prediction for the selected Security state</description
+                            >
                             <bitRange>[18:18]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -857,8 +889,10 @@
                         </field>
                         <field>
                             <name>IC</name>
-                            <description>Instruction cache enable. This is a global enable bit for instruction caches in the selected Security
-                                state.</description>
+                            <description
+                                >Instruction cache enable. This is a global enable bit for instruction caches in the selected Security
+                                state.</description
+                            >
                             <bitRange>[17:17]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -873,8 +907,10 @@
                         </field>
                         <field>
                             <name>DC</name>
-                            <description>Data cache enable. Enables data caching of all data accesses to Normal memory for the selected security
-                                state</description>
+                            <description
+                                >Data cache enable. Enables data caching of all data accesses to Normal memory for the selected security
+                                state</description
+                            >
                             <bitRange>[16:16]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -889,9 +925,11 @@
                         </field>
                         <field>
                             <name>STKOFHFNMIGN</name>
-                            <description>Stack overflow in HardFault and NMI ignore. Controls the effect of a stack limit violation while executing
+                            <description
+                                >Stack overflow in HardFault and NMI ignore. Controls the effect of a stack limit violation while executing
                                 at a requested priority less than 0 for the Security state with which the stack limit register is
-                                associated</description>
+                                associated</description
+                            >
                             <bitRange>[10:10]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -906,8 +944,10 @@
                         </field>
                         <field>
                             <name>BFHFNMIGN</name>
-                            <description>BusFault in HardFault or NMI ignore. Determines the effect of precise BusFaults on handlers running at a
-                                requested priority less than 0</description>
+                            <description
+                                >BusFault in HardFault or NMI ignore. Determines the effect of precise BusFaults on handlers running at a
+                                requested priority less than 0</description
+                            >
                             <bitRange>[8:8]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -922,7 +962,10 @@
                         </field>
                         <field>
                             <name>STKALIGN</name>
-                            <description>Stack alignment. Controls whether the stack is automatically aligned to 8-byte boundary on exception entry</description>
+                            <description
+                                >Stack alignment. Controls whether the stack is automatically aligned to 8-byte boundary on exception
+                                entry</description
+                            >
                             <bitRange>[9:9]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -937,8 +980,10 @@
                         </field>
                         <field>
                             <name>DIV_0_TRP</name>
-                            <description>Divide by zero trap. Controls the generation of a DIVBYZERO UsageFault when attempting to perform integer
-                                division by zero</description>
+                            <description
+                                >Divide by zero trap. Controls the generation of a DIVBYZERO UsageFault when attempting to perform integer
+                                division by zero</description
+                            >
                             <bitRange>[4:4]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -968,8 +1013,10 @@
                         </field>
                         <field>
                             <name>USERSETMPEND</name>
-                            <description>User set main pending. Determines whether unprivileged accesses are permitted to pend interrupts via the
-                                STIR</description>
+                            <description
+                                >User set main pending. Determines whether unprivileged accesses are permitted to pend interrupts via the
+                                STIR</description
+                            >
                             <bitRange>[1:1]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1140,8 +1187,10 @@
                         </field>
                         <field>
                             <name>BUSFAULTENA</name>
-                            <description>BusFault exception enable. The value of this bit defines whether the BusFault exception is
-                                enabled</description>
+                            <description
+                                >BusFault exception enable. The value of this bit defines whether the BusFault exception is
+                                enabled</description
+                            >
                             <bitRange>[17:17]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1459,8 +1508,10 @@
                         </field>
                         <field>
                             <name>NOCP</name>
-                            <description>No coprocessor flag. Indicates whether a coprocessor disabled or not present error has
-                                occurred</description>
+                            <description
+                                >No coprocessor flag. Indicates whether a coprocessor disabled or not present error has
+                                occurred</description
+                            >
                             <bitRange>[19:19]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1490,7 +1541,9 @@
                         </field>
                         <field>
                             <name>INVSTATE</name>
-                            <description>Invalid state flag. Indicates whether an EPSR.T or EPSR.IT validity error has occurred</description>
+                            <description
+                                >Invalid state flag. Indicates whether an EPSR.T or EPSR.IT validity error has occurred</description
+                            >
                             <bitRange>[17:17]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1505,7 +1558,9 @@
                         </field>
                         <field>
                             <name>UNDEFINSTR</name>
-                            <description>Undefined instruction flag. Indicates whether an undefined instruction error has occurred</description>
+                            <description
+                                >Undefined instruction flag. Indicates whether an undefined instruction error has occurred</description
+                            >
                             <bitRange>[16:16]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1544,8 +1599,10 @@
                         </field>
                         <field>
                             <name>LSPERR</name>
-                            <description>Lazy state preservation error. Records whether a BusFault occurred during FP lazy state
-                                preservation</description>
+                            <description
+                                >Lazy state preservation error. Records whether a BusFault occurred during FP lazy state
+                                preservation</description
+                            >
                             <bitRange>[13:13]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1560,7 +1617,9 @@
                         </field>
                         <field>
                             <name>STKERR</name>
-                            <description>Stack error. Records whether a derived BusFault occurred during exception entry stacking</description>
+                            <description
+                                >Stack error. Records whether a derived BusFault occurred during exception entry stacking</description
+                            >
                             <bitRange>[12:12]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1575,7 +1634,9 @@
                         </field>
                         <field>
                             <name>UNSTKERR</name>
-                            <description>Unstack error. Records whether a derived BusFault occurred during exception return unstacking</description>
+                            <description
+                                >Unstack error. Records whether a derived BusFault occurred during exception return unstacking</description
+                            >
                             <bitRange>[11:11]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1620,7 +1681,9 @@
                         </field>
                         <field>
                             <name>IBUSERR</name>
-                            <description>Instruction bus error. Records whether a BusFault on an instruction prefetch has occurred</description>
+                            <description
+                                >Instruction bus error. Records whether a BusFault on an instruction prefetch has occurred</description
+                            >
                             <bitRange>[8:8]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1659,8 +1722,10 @@
                         </field>
                         <field>
                             <name>MLSPERR</name>
-                            <description>MemManage lazy state preservation error flag. Records whether a MemManage fault occurred during FP lazy
-                                state preservation</description>
+                            <description
+                                >MemManage lazy state preservation error flag. Records whether a MemManage fault occurred during FP lazy
+                                state preservation</description
+                            >
                             <bitRange>[5:5]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1675,8 +1740,10 @@
                         </field>
                         <field>
                             <name>MSTKERR</name>
-                            <description>MemManage stacking error flag. Records whether a derived MemManage fault occurred during exception entry
-                                stacking</description>
+                            <description
+                                >MemManage stacking error flag. Records whether a derived MemManage fault occurred during exception entry
+                                stacking</description
+                            >
                             <bitRange>[4:4]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1691,8 +1758,10 @@
                         </field>
                         <field>
                             <name>MUNSTKERR</name>
-                            <description>MemManage unstacking error flag. Records whether a derived MemManage fault occurred during exception return
-                                unstacking</description>
+                            <description
+                                >MemManage unstacking error flag. Records whether a derived MemManage fault occurred during exception return
+                                unstacking</description
+                            >
                             <bitRange>[3:3]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -1722,8 +1791,10 @@
                         </field>
                         <field>
                             <name>IACCVIOL</name>
-                            <description>Instruction access violation. Records whether an instruction related memory access violation has
-                                occurred</description>
+                            <description
+                                >Instruction access violation. Records whether an instruction related memory access violation has
+                                occurred</description
+                            >
                             <bitRange>[0:0]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2142,7 +2213,9 @@
                         </field>
                         <field>
                             <name>CMaintSW</name>
-                            <description>Cache maintenance set/way. Indicates the supported cache maintenance operations by set/way</description>
+                            <description
+                                >Cache maintenance set/way. Indicates the supported cache maintenance operations by set/way</description
+                            >
                             <bitRange>[7:4]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2157,7 +2230,9 @@
                         </field>
                         <field>
                             <name>CMaintVA</name>
-                            <description>Cache maintenance by address. Indicates the supported cache maintenance operations by address</description>
+                            <description
+                                >Cache maintenance by address. Indicates the supported cache maintenance operations by address</description
+                            >
                             <bitRange>[3:0]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2181,7 +2256,9 @@
                     <fields>
                         <field>
                             <name>ICB</name>
-                            <description>Inner cache boundary. This field indicates the boundary between inner and outer domain</description>
+                            <description
+                                >Inner cache boundary. This field indicates the boundary between inner and outer domain</description
+                            >
                             <bitRange>[31:30]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2209,7 +2286,9 @@
                         </field>
                         <field>
                             <name>LoC</name>
-                            <description>Level of Coherence. This field indicates the Level of Coherence for the cache hierarchy</description>
+                            <description
+                                >Level of Coherence. This field indicates the Level of Coherence for the cache hierarchy</description
+                            >
                             <bitRange>[26:24]</bitRange>
                         </field>
                         <field>
@@ -2259,8 +2338,10 @@
                             <bitRange>[27:24]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
-                                    <description>Indicates that this register does not provide Cache Writeback Granule information and either the
-                                        architectural maximum of 512 w</description>
+                                    <description
+                                        >Indicates that this register does not provide Cache Writeback Granule information and either the
+                                        architectural maximum of 512 w</description
+                                    >
                                     <value>0</value>
                                 </enumeratedValue>
                             </enumeratedValues>
@@ -2271,8 +2352,10 @@
                             <bitRange>[23:20]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
-                                    <description>Indicates that this register does not provide Exclusives Reservation Granule information and the
-                                        architectural maximum of 512 w</description>
+                                    <description
+                                        >Indicates that this register does not provide Exclusives Reservation Granule information and the
+                                        architectural maximum of 512 w</description
+                                    >
                                     <value>0</value>
                                 </enumeratedValue>
                             </enumeratedValues>
@@ -2298,7 +2381,9 @@
                     <fields>
                         <field>
                             <name>WT</name>
-                            <description>Write-Through. Indicates whether the currently selected cache level supports Write-Through</description>
+                            <description
+                                >Write-Through. Indicates whether the currently selected cache level supports Write-Through</description
+                            >
                             <bitRange>[31:31]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2328,7 +2413,9 @@
                         </field>
                         <field>
                             <name>RA</name>
-                            <description>Read-allocate. Indicates whether the currently selected cache level supports read-allocation</description>
+                            <description
+                                >Read-allocate. Indicates whether the currently selected cache level supports read-allocation</description
+                            >
                             <bitRange>[29:29]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2343,7 +2430,9 @@
                         </field>
                         <field>
                             <name>WA</name>
-                            <description>Write-Allocate. Indicates whether the currently selected cache level supports write-allocation</description>
+                            <description
+                                >Write-Allocate. Indicates whether the currently selected cache level supports write-allocation</description
+                            >
                             <bitRange>[28:28]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2363,7 +2452,9 @@
                         </field>
                         <field>
                             <name>LineSize</name>
-                            <description>Line size. Indicates (Log2(Number of words per line in the currently selected cache)) - 2</description>
+                            <description
+                                >Line size. Indicates (Log2(Number of words per line in the currently selected cache)) - 2</description
+                            >
                             <bitRange>[2:0]</bitRange>
                         </field>
                     </fields>
@@ -2371,8 +2462,10 @@
                 <register>
                     <name>Cache Size Selection Register</name>
                     <displayName>CSSELR</displayName>
-                    <description>Selects the current Cache Size ID Register, CCSIDR, by specifying the required cache level and the cache type
-                        (either instruction or data cache)</description>
+                    <description
+                        >Selects the current Cache Size ID Register, CCSIDR, by specifying the required cache level and the cache type
+                        (either instruction or data cache)</description
+                    >
                     <addressOffset>0x84</addressOffset>
                     <access>read-write</access>
                     <fields>
@@ -2413,7 +2506,9 @@
                         </field>
                         <field>
                             <name>InD</name>
-                            <description>Instruction not data. Selects whether the instruction or the data cache is to be identified</description>
+                            <description
+                                >Instruction not data. Selects whether the instruction or the data cache is to be identified</description
+                            >
                             <bitRange>[0:0]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
@@ -2483,7 +2578,9 @@
                 <register>
                     <name>Non-secure Access Control Register</name>
                     <displayName>NSACR</displayName>
-                    <description>Defines the Non-secure access permissions for both the FP Extension and coprocessors CP0 to CP7</description>
+                    <description
+                        >Defines the Non-secure access permissions for both the FP Extension and coprocessors CP0 to CP7</description
+                    >
                     <addressOffset>0x8C</addressOffset>
                     <access>read-write</access>
                     <fields>
@@ -2498,7 +2595,9 @@
                             <bitRange>[10:10]</bitRange>
                             <enumeratedValues>
                                 <enumeratedValue>
-                                    <description>Non-secure accesses to the Floating-point Extension generate a NOCP UsageFault</description>
+                                    <description
+                                        >Non-secure accesses to the Floating-point Extension generate a NOCP UsageFault</description
+                                    >
                                     <value>0</value>
                                 </enumeratedValue>
                                 <enumeratedValue>
@@ -2559,7 +2658,9 @@
                     <fields>
                         <field>
                             <name>ADDRESS</name>
-                            <description>Address. Writing to this field initiates the maintenance operation for the address written</description>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
                             <bitRange>[31:0]</bitRange>
                         </field>
                     </fields>
@@ -2573,7 +2674,9 @@
                     <fields>
                         <field>
                             <name>SetWay</name>
-                            <description>Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description
+                            >
                             <bitRange>[31:4]</bitRange>
                         </field>
                         <field>
@@ -2592,7 +2695,9 @@
                     <fields>
                         <field>
                             <name>ADDRESS</name>
-                            <description>Address. Writing to this field initiates the maintenance operation for the address written</description>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
                             <bitRange>[31:0]</bitRange>
                         </field>
                     </fields>
@@ -2606,7 +2711,9 @@
                     <fields>
                         <field>
                             <name>ADDRESS</name>
-                            <description>Address. Writing to this field initiates the maintenance operation for the address written</description>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
                             <bitRange>[31:0]</bitRange>
                         </field>
                     </fields>
@@ -2620,7 +2727,9 @@
                     <fields>
                         <field>
                             <name>SetWay</name>
-                            <description>Cache set/way. Contains two fields: Way, bits [31:32-A], the number of the way to operate on</description>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits [31:32-A], the number of the way to operate on</description
+                            >
                             <bitRange>[31:4]</bitRange>
                         </field>
                         <field>
@@ -2639,7 +2748,9 @@
                     <fields>
                         <field>
                             <name>ADDRESS</name>
-                            <description>Address. Writing to this field initiates the maintenance operation for the address written</description>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
                             <bitRange>[31:0]</bitRange>
                         </field>
                     </fields>
@@ -2653,7 +2764,9 @@
                     <fields>
                         <field>
                             <name>SetWay</name>
-                            <description>Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description>
+                            <description
+                                >Cache set/way. Contains two fields: Way, bits[31:32-A], the number of the way to operate on</description
+                            >
                             <bitRange>[31:4]</bitRange>
                         </field>
                         <field>
@@ -2686,7 +2799,9 @@
                     <fields>
                         <field>
                             <name>ADDRESS</name>
-                            <description>Address. Writing to this field initiates the maintenance operation for the address written</description>
+                            <description
+                                >Address. Writing to this field initiates the maintenance operation for the address written</description
+                            >
                             <bitRange>[31:0]</bitRange>
                         </field>
                     </fields>
