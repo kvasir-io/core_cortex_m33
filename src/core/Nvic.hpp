@@ -147,4 +147,3 @@ namespace Kvasir { namespace Nvic {
           "Unable to set priority on this interrupt, index is out of range");
     };
 }}   // namespace Kvasir::Nvic
-

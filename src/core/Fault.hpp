@@ -265,9 +265,7 @@ using EarlyInitList = decltype(MPL::list(
 static inline void Log(std::uint32_t const* stack_ptr,
                        std::uint32_t        lr_value) {
     [[maybe_unused]] auto const ctx        = Core::Fault::CaptureFaultContext(stack_ptr, lr_value);
-    auto                        fault_info = Core::Fault::GetFaultInfo();
-
-    fault_info.fault_address = 33;
+    [[maybe_unused]] auto       fault_info = Core::Fault::GetFaultInfo();
 
     UC_LOG_C(
       "COREFAULT type({}) info({}) flags({:#08x}) address({:#08x}) "
@@ -288,3 +286,4 @@ static inline void Log(std::uint32_t const* stack_ptr,
 }
 
 }   // namespace Kvasir::Core::Fault
+
