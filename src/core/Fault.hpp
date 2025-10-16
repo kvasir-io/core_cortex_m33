@@ -15,162 +15,135 @@ namespace Kvasir::Core::Fault {
 
 using SCB_R = Kvasir::Peripheral::SCB::Registers<>;
 
-struct FaultContext {
-    std::uint32_t        r0;
-    std::uint32_t        r1;
-    std::uint32_t        r2;
-    std::uint32_t        r3;
-    std::uint32_t        r12;
-    std::uint32_t        lr;
-    std::uint32_t        pc;
-    std::uint32_t        xpsr;
-    std::uint32_t        exc_return;
-    std::uint32_t const* stack_pointer;
+enum class FaultType : std::uint8_t { Hard, Usage, Bus, MemManage };
+
+enum class FaultDescription : std::uint8_t {
+    VectorTable,
+    UnknownEscalation,
+    Unknown,
+    DivisionByZero,
+    UnalignedAccess,
+    NoCoprocessor,
+    InvalidPCLoad,
+    InvalidState,
+    UndefinedInstruction,
+    LazyStatePreservationError,
+    ExceptionStackingError,
+    ExceptionUnstackingError,
+    ImpreciseDataAccessError,
+    PreciseDataAccessError,
+    InstructionBusError,
+    DataAccessViolation,
+    InstructionAccessViolation
 };
 
 struct FaultInfo {
-    Kvasir::StaticString<64>     type;
-    std::string_view             description;
+    FaultType                    type;
+    FaultDescription             description;
     std::optional<std::uint32_t> fault_address;
     std::uint32_t                status_bits;
+    bool                         forced;
 };
 
 namespace detail {
 
-    static constexpr FaultInfo analyze_usage_fault(Kvasir::StaticString<64> context,
-                                                   std::uint32_t            ufsr) {
+    static constexpr void analyze_usage_fault(FaultInfo&    info,
+                                              std::uint32_t ufsr) {
+        info.status_bits = ufsr;
+        info.type        = FaultType::Usage;
+
         if(ufsr & (1U << 9)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "Division by zero",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::DivisionByZero;
+            return;
         }
         if(ufsr & (1U << 8)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "Unaligned access",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::UnalignedAccess;
+            return;
         }
         if(ufsr & (1U << 3)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "No coprocessor",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::NoCoprocessor;
+            return;
         }
         if(ufsr & (1U << 2)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "Invalid PC load",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::InvalidPCLoad;
+            return;
         }
         if(ufsr & (1U << 1)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "Invalid state",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::InvalidState;
+            return;
         }
         if(ufsr & (1U << 0)) {
-            return {.type          = context + "UsageFault",
-                    .description   = "Undefined instruction",
-                    .fault_address = std::nullopt,
-                    .status_bits   = ufsr};
+            info.description = FaultDescription::UndefinedInstruction;
+            return;
         }
-        return {.type          = context + "UsageFault",
-                .description   = "Unknown",
-                .fault_address = std::nullopt,
-                .status_bits   = ufsr};
     }
 
-    static constexpr FaultInfo analyze_bus_fault(Kvasir::StaticString<64> context,
-                                                 std::uint32_t            bfsr,
-                                                 std::uint32_t            bfar) {
+    static constexpr void analyze_bus_fault(FaultInfo&    info,
+                                            std::uint32_t bfsr,
+                                            std::uint32_t bfar) {
+        info.status_bits = bfsr;
+
         bool const address_valid = bfsr & (1U << 7);
-        auto const fault_address
-          = address_valid ? std::optional<std::uint32_t>{bfar} : std::nullopt;
+        info.fault_address = address_valid ? std::optional<std::uint32_t>{bfar} : std::nullopt;
+
+        info.type = FaultType::Bus;
 
         if(bfsr & (1U << 5)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Lazy state preservation error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::LazyStatePreservationError;
+            return;
         }
         if(bfsr & (1U << 4)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Exception stacking error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::ExceptionStackingError;
+            return;
         }
         if(bfsr & (1U << 3)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Exception unstacking error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::ExceptionUnstackingError;
+            return;
         }
         if(bfsr & (1U << 2)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Imprecise data access error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::ImpreciseDataAccessError;
+            return;
         }
         if(bfsr & (1U << 1)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Precise data access error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::PreciseDataAccessError;
+            return;
         }
         if(bfsr & (1U << 0)) {
-            return {.type          = context + "BusFault",
-                    .description   = "Instruction bus error",
-                    .fault_address = fault_address,
-                    .status_bits   = bfsr};
+            info.description = FaultDescription::InstructionBusError;
+            return;
         }
-        return {.type          = context + "BusFault",
-                .description   = "Unknown",
-                .fault_address = fault_address,
-                .status_bits   = bfsr};
     }
 
-    static constexpr FaultInfo analyze_memmanage_fault(Kvasir::StaticString<64> context,
-                                                       std::uint32_t            mmfsr,
-                                                       std::uint32_t            mmfar) {
+    static constexpr void analyze_memmanage_fault(FaultInfo&    info,
+                                                  std::uint32_t mmfsr,
+                                                  std::uint32_t mmfar) {
+        info.status_bits = mmfsr;
+
         bool const address_valid = mmfsr & (1U << 7);
-        auto const fault_address
-          = address_valid ? std::optional<std::uint32_t>{mmfar} : std::nullopt;
+        info.fault_address = address_valid ? std::optional<std::uint32_t>{mmfar} : std::nullopt;
+
+        info.type = FaultType::MemManage;
 
         if(mmfsr & (1U << 5)) {
-            return {.type          = context + "MemManage",
-                    .description   = "Lazy state preservation error",
-                    .fault_address = fault_address,
-                    .status_bits   = mmfsr};
+            info.description = FaultDescription::LazyStatePreservationError;
+            return;
         }
         if(mmfsr & (1U << 4)) {
-            return {.type          = context + "MemManage",
-                    .description   = "Exception stacking error",
-                    .fault_address = fault_address,
-                    .status_bits   = mmfsr};
+            info.description = FaultDescription::ExceptionStackingError;
+            return;
         }
         if(mmfsr & (1U << 3)) {
-            return {.type          = context + "MemManage",
-                    .description   = "Exception unstacking error",
-                    .fault_address = fault_address,
-                    .status_bits   = mmfsr};
+            info.description = FaultDescription::ExceptionUnstackingError;
+            return;
         }
         if(mmfsr & (1U << 1)) {
-            return {.type          = context + "MemManage",
-                    .description   = "Data access violation",
-                    .fault_address = fault_address,
-                    .status_bits   = mmfsr};
+            info.description = FaultDescription::DataAccessViolation;
+            return;
         }
         if(mmfsr & (1U << 0)) {
-            return {.type          = context + "MemManage",
-                    .description   = "Instruction access violation",
-                    .fault_address = fault_address,
-                    .status_bits   = mmfsr};
+            info.description = FaultDescription::InstructionAccessViolation;
+            return;
         }
-        return {.type          = context + "MemManage",
-                .description   = "Unknown",
-                .fault_address = fault_address,
-                .status_bits   = mmfsr};
     }
 
 }   // namespace detail
@@ -196,57 +169,39 @@ static FaultInfo GetFaultInfo() {
     auto mmfar = get<6>(fault_regs);
     auto bfar  = get<7>(fault_regs);
 
+    FaultInfo info{};
+    info.type        = FaultType::Hard;
+    info.description = FaultDescription::Unknown;
+
     if(hfsr_vecttbl) {
-        return {.type          = "HardFault",
-                .description   = "vector table",
-                .fault_address = std::nullopt,
-                .status_bits   = hfsr_vecttbl};
+        info.description = FaultDescription::VectorTable;
+        info.status_bits = hfsr_vecttbl;
+        return info;
     }
 
-    Kvasir::StaticString<64> context{};
-    if(hfsr_forced) {
-        context = "Forced HardFault -> ";
-    }
+    info.forced = hfsr_forced != 0;
 
     if(ufsr) {
-        return detail::analyze_usage_fault(context, ufsr);
+        detail::analyze_usage_fault(info, ufsr);
+        return info;
     }
     if(bfsr) {
-        return detail::analyze_bus_fault(context, bfsr, bfar);
+        detail::analyze_bus_fault(info, bfsr, bfar);
+        return info;
     }
     if(mmfsr) {
-        return detail::analyze_memmanage_fault(context, mmfsr, mmfar);
+        detail::analyze_memmanage_fault(info, mmfsr, mmfar);
+        return info;
     }
 
-    if(hfsr_forced) {
-        return {.type          = "HardFault",
-                .description   = "unknown escalation",
-                .fault_address = std::nullopt,
-                .status_bits   = ufsr | bfsr | mmfsr};
+    if(info.forced) {
+        info.description = FaultDescription::UnknownEscalation;
+        info.status_bits = ufsr | bfsr | mmfsr;
+        return info;
     }
 
-    return {.type          = "HardFault",
-            .description   = "unknown",
-            .fault_address = std::nullopt,
-            .status_bits   = hfsr_debugevt | hfsr_forced | hfsr_vecttbl};
-}
-
-static FaultContext CaptureFaultContext(std::uint32_t const* stack_ptr,
-                                        std::uint32_t        lr_value) {
-    FaultContext ctx{};
-
-    ctx.r0            = stack_ptr[0];
-    ctx.r1            = stack_ptr[1];
-    ctx.r2            = stack_ptr[2];
-    ctx.r3            = stack_ptr[3];
-    ctx.r12           = stack_ptr[4];
-    ctx.lr            = stack_ptr[5];
-    ctx.pc            = stack_ptr[6];
-    ctx.xpsr          = stack_ptr[7];
-    ctx.exc_return    = lr_value;
-    ctx.stack_pointer = stack_ptr;
-
-    return ctx;
+    info.status_bits = hfsr_debugevt | hfsr_forced | hfsr_vecttbl;
+    return info;
 }
 
 using EarlyInitList = decltype(MPL::list(
@@ -262,28 +217,28 @@ using EarlyInitList = decltype(MPL::list(
   write(
     SCB_R::CCR::STKALIGNValC::stack_automatically_aligned_to_8_byte_boundary_on_exception_entry)));
 
-static inline void Log(std::uint32_t const* stack_ptr,
-                       std::uint32_t        lr_value) {
-    [[maybe_unused]] auto const ctx        = Core::Fault::CaptureFaultContext(stack_ptr, lr_value);
-    [[maybe_unused]] auto       fault_info = Core::Fault::GetFaultInfo();
+static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
+                       [[maybe_unused]] std::uint32_t        lr_value) {
+    [[maybe_unused]] FaultInfo const fault_info = Core::Fault::GetFaultInfo();
 
     UC_LOG_C(
-      "COREFAULT type({}) info({}) flags({:#08x}) address({:#08x}) "
+      "COREFAULT type({}Fault) forced({}) info({}) flags({:#08x}) address({:#08x}) "
       "registers: PC={:#08x} R0={:#08x} R1={:#08x} R2={:#08x} R3={:#08x} R12={:#08x} LR={:#08x} "
-      "xPSR={:#08x}",
+      "xPSR={:#08x} EXC_RETURN={:#08x}",
       fault_info.type,
+      fault_info.forced,
       fault_info.description,
       fault_info.status_bits,
       fault_info.fault_address,
-      ctx.pc,
-      ctx.r0,
-      ctx.r1,
-      ctx.r2,
-      ctx.r3,
-      ctx.r12,
-      ctx.lr,
-      ctx.xpsr);
+      stack_ptr[6],
+      stack_ptr[0],
+      stack_ptr[1],
+      stack_ptr[2],
+      stack_ptr[3],
+      stack_ptr[4],
+      stack_ptr[5],
+      stack_ptr[7],
+      lr_value);
 }
 
 }   // namespace Kvasir::Core::Fault
-
