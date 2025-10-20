@@ -173,9 +173,7 @@ namespace Systick {
             while(true) {
                 currentCount  = apply(read(Regs::CVR::current));
                 localOverruns = overruns.load(std::memory_order_relaxed);
-                if(!fieldEquals(Regs::CSR::COUNTFLAGValC::timer_has_counted_to_0)) {
-                    break;
-                }
+                if(!fieldEquals(Regs::CSR::COUNTFLAGValC::timer_has_counted_to_0)) { break; }
             }
             auto const cnd  = duration{reloadValue - currentCount};
             auto const ovd  = duration{localOverruns * (reloadValue + 1)};
