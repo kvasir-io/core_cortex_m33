@@ -204,6 +204,10 @@ static FaultInfo GetFaultInfo() {
     return info;
 }
 
+using EarlyInitList = decltype(MPL::list());
+
+#if 0
+//TODO check why this does leads to a hardfault
 using EarlyInitList = decltype(MPL::list(
   // Enable fault exceptions
   write(SCB_R::SHCSR::MEMFAULTENAValC::memmanage_exception_enabled_for_the_selected_security_state),
@@ -216,6 +220,7 @@ using EarlyInitList = decltype(MPL::list(
   write(SCB_R::CCR::UNALIGN_TRPValC::any_unaligned_transaction_generates_an_unaligned_usagefault),
   write(
     SCB_R::CCR::STKALIGNValC::stack_automatically_aligned_to_8_byte_boundary_on_exception_entry)));
+#endif
 
 static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
                        [[maybe_unused]] std::uint32_t        lr_value) {

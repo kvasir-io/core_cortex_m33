@@ -23,7 +23,8 @@ namespace Nvic {
     // Systick
     template<>
     struct MakeAction<Action::SetPending, Index<Interrupt::systick.index()>>
-      : decltype(write(detail::SCU_R::ICSR::PENDSTSETValC::set_pending)) {
+      : decltype(detail::SCU_R::ICSR::overrideDefaults(
+          write(detail::SCU_R::ICSR::PENDSTSETValC::set_pending))) {
         static_assert(
           Detail::interuptIndexValid(Interrupt::systick.index(),
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),
@@ -33,7 +34,8 @@ namespace Nvic {
 
     template<>
     struct MakeAction<Action::ClearPending, Index<Interrupt::systick.index()>>
-      : decltype(write(detail::SCU_R::ICSR::PENDSTCLRValC::clear)) {
+      : decltype(detail::SCU_R::ICSR::overrideDefaults(
+          write(detail::SCU_R::ICSR::PENDSTCLRValC::clear))) {
         static_assert(
           Detail::interuptIndexValid(Interrupt::systick.index(),
                                      std::begin(InterruptOffsetTraits<void>::noClearPending),
@@ -49,7 +51,8 @@ namespace Nvic {
     // PendSv
     template<>
     struct MakeAction<Action::SetPending, Index<Interrupt::pendSV.index()>>
-      : decltype(write(detail::SCU_R::ICSR::PENDSVSETValC::set_pending)) {
+      : decltype(detail::SCU_R::ICSR::overrideDefaults(
+          write(detail::SCU_R::ICSR::PENDSVSETValC::set_pending))) {
         static_assert(
           Detail::interuptIndexValid(Interrupt::pendSV.index(),
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),
@@ -59,7 +62,8 @@ namespace Nvic {
 
     template<>
     struct MakeAction<Action::ClearPending, Index<Interrupt::pendSV.index()>>
-      : decltype(write(detail::SCU_R::ICSR::PENDSVCLRValC::clear)) {
+      : decltype(detail::SCU_R::ICSR::overrideDefaults(
+          write(detail::SCU_R::ICSR::PENDSVCLRValC::clear))) {
         static_assert(
           Detail::interuptIndexValid(Interrupt::pendSV.index(),
                                      std::begin(InterruptOffsetTraits<void>::noClearPending),
@@ -75,7 +79,8 @@ namespace Nvic {
     // nonMaskableInt
     template<>
     struct MakeAction<Action::SetPending, Index<Interrupt::nonMaskableInt.index()>>
-      : decltype(write(detail::SCU_R::ICSR::NMIPENDSETValC::set_pending)) {
+      : decltype(detail::SCU_R::ICSR::overrideDefaults(
+          write(detail::SCU_R::ICSR::NMIPENDSETValC::set_pending))) {
         static_assert(
           Detail::interuptIndexValid(Interrupt::nonMaskableInt.index(),
                                      std::begin(InterruptOffsetTraits<void>::noSetPending),

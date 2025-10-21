@@ -133,7 +133,8 @@ namespace Systick {
             std::uint64_t NanoSecPerOverrun
               = ((std::uint64_t(calcReloadValue(clockSpeed)) + 1ULL) * 1'000'000'000ULL)
               / clockSpeed;
-            return std::uint64_t(overrunTime.count()) / NanoSecPerOverrun;
+            return (std::uint64_t(overrunTime.count()) + NanoSecPerOverrun - 1ULL)
+                 / NanoSecPerOverrun;
         }
 
         using overrunT = GetOverrunTypeT<calcOverRunValue(ClockSpeed, Config::minOverrunTime)>;
