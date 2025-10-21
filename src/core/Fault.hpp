@@ -204,23 +204,15 @@ static FaultInfo GetFaultInfo() {
     return info;
 }
 
-using EarlyInitList = decltype(MPL::list());
-
-#if 0
-//TODO check why this does leads to a hardfault
 using EarlyInitList = decltype(MPL::list(
   // Enable fault exceptions
   write(SCB_R::SHCSR::MEMFAULTENAValC::memmanage_exception_enabled_for_the_selected_security_state),
   write(SCB_R::SHCSR::BUSFAULTENAValC::busfault_exception_enabled),
+  write(SCB_R::SHCSR::SECUREFAULTENAValC::securefault_exception_enabled),
   write(
     SCB_R::SHCSR::USGFAULTENAValC::usagefault_exception_enabled_for_the_selected_security_state),
-
   // Enable additional fault detection
-  write(SCB_R::CCR::DIV_0_TRPValC::divbyzero_usagefault_generation_enabled),
-  write(SCB_R::CCR::UNALIGN_TRPValC::any_unaligned_transaction_generates_an_unaligned_usagefault),
-  write(
-    SCB_R::CCR::STKALIGNValC::stack_automatically_aligned_to_8_byte_boundary_on_exception_entry)));
-#endif
+  write(SCB_R::CCR::DIV_0_TRPValC::divbyzero_usagefault_generation_enabled)));
 
 static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
                        [[maybe_unused]] std::uint32_t        lr_value) {
