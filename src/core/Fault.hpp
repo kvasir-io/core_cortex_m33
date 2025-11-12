@@ -219,9 +219,10 @@ static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
     [[maybe_unused]] FaultInfo const fault_info = Core::Fault::GetFaultInfo();
 
     UC_LOG_C(
-      "COREFAULT type({}Fault) forced({}) info({}) flags({:#08x}) address({:#08x}) "
-      "registers: PC={:#08x} R0={:#08x} R1={:#08x} R2={:#08x} R3={:#08x} R12={:#08x} LR={:#08x} "
-      "xPSR={:#08x} EXC_RETURN={:#08x}",
+      "COREFAULT type({}Fault) forced({}) info({}) flags({:#010x}) address({:#010x}) "
+      "registers: PC={:#010x} R0={:#010x} R1={:#010x} R2={:#010x} R3={:#010x} R12={:#010x} "
+      "LR={:#010x} "
+      "xPSR={:#010x} EXC_RETURN={:#010x}",
       fault_info.type,
       fault_info.forced,
       fault_info.description,
