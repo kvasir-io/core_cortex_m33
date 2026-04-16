@@ -7,6 +7,7 @@
 
 //
 #include "CoreInterrupts.hpp"
+#include "Debug.hpp"
 #include "Nvic.hpp"
 #include "StartUp.hpp"
 #include "SystemControl.hpp"

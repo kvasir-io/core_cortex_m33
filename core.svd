@@ -2808,5 +2808,98 @@
                 </register>
             </registers>
         </peripheral>
+        <peripheral>
+            <name>DCB</name>
+            <description>Debug Control Block</description>
+            <baseAddress>0xE000EDF0</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x10</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Debug Halting Control and Status Register</name>
+                    <displayName>DHCSR</displayName>
+                    <description>Controls halting debug</description>
+                    <addressOffset>0x0</addressOffset>
+                    <fields>
+                        <field>
+                            <name>S_RESTART_ST</name>
+                            <description>Indicates the PE has processed a request to clear DHCSR.C_HALT to 0</description>
+                            <bitRange>[26:26]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_RESET_ST</name>
+                            <description>Indicates whether the PE has been reset since the last read of the DHCSR</description>
+                            <bitRange>[25:25]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_RETIRE_ST</name>
+                            <description>Set to 1 every time the PE retires one or more instructions</description>
+                            <bitRange>[24:24]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_SDE</name>
+                            <description>Indicates whether Secure invasive debug is allowed</description>
+                            <bitRange>[20:20]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_LOCKUP</name>
+                            <description>Indicates whether the PE is in Lockup state</description>
+                            <bitRange>[19:19]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_SLEEP</name>
+                            <description>Indicates whether the PE is sleeping</description>
+                            <bitRange>[18:18]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_HALT</name>
+                            <description>Indicates whether the PE is in Debug state</description>
+                            <bitRange>[17:17]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>S_REGRDY</name>
+                            <description>Handshake flag for transfers through the DCRDR</description>
+                            <bitRange>[16:16]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>C_SNAPSTALL</name>
+                            <description>Allow imprecise entry to Debug state</description>
+                            <bitRange>[5:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>C_MASKINTS</name>
+                            <description>When debug is enabled, mask PendSV, SysTick and external configurable interrupts</description>
+                            <bitRange>[3:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>C_STEP</name>
+                            <description>Enable single instruction step</description>
+                            <bitRange>[2:2]</bitRange>
+                        </field>
+                        <field>
+                            <name>C_HALT</name>
+                            <description>PE enter Debug state halt request</description>
+                            <bitRange>[1:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>C_DEBUGEN</name>
+                            <description>Enable Halting debug. Set by the debugger when it attaches</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
     </peripherals>
 </device>
