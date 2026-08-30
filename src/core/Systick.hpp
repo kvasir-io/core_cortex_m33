@@ -7,6 +7,7 @@
 #include "kvasir/Common/Interrupt.hpp"
 #include "kvasir/Register/Register.hpp"
 #include "kvasir/Register/Utility.hpp"
+#include "kvasir/Util/attributes.hpp"
 
 #include <atomic>
 #include <chrono>
@@ -165,7 +166,7 @@ namespace Systick {
         }
 
     public:
-        [[clang::no_sanitize("unsigned-integer-overflow")]] static time_point now() {
+        [[KVASIR_NO_SANITIZE_UNSIGNED_OVERFLOW]] static time_point now() {
             static constexpr auto reloadValue = calcReloadValue(ClockSpeed);
 
             std::uint32_t currentCount{};

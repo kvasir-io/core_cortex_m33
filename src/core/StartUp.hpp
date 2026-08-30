@@ -1,7 +1,5 @@
 #pragma once
-extern "C" {
-extern void _LINKER_stack_start_();
-}
+#include "kvasir/StartUp/LinkerSymbols.hpp"
 
 namespace Kvasir::Startup::Core {
 
