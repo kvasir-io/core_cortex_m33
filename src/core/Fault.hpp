@@ -34,7 +34,8 @@ enum class FaultDescription : std::uint8_t {
     PreciseDataAccessError,
     InstructionBusError,
     DataAccessViolation,
-    InstructionAccessViolation
+    InstructionAccessViolation,
+    StackOverflow
 };
 
 struct FaultInfo {
@@ -52,6 +53,12 @@ namespace detail {
         info.status_bits = ufsr;
         info.type        = FaultType::Usage;
 
+        // STKOF: the stack pointer crossed MSPLIM/PSPLIM. Checked first because an overflow
+        // usually drags a second flag along with it, and the overflow is the one to report.
+        if(ufsr & (1U << 4)) {
+            info.description = FaultDescription::StackOverflow;
+            return;
+        }
         if(ufsr & (1U << 9)) {
             info.description = FaultDescription::DivisionByZero;
             return;

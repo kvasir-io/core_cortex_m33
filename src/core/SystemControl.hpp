@@ -11,10 +11,15 @@
 
 namespace Kvasir {
 namespace SystemControl {
+    // AIRCR.SYSRESETREQ: the core asserts its SYSRESETREQ signal, and what that resets is
+    // the chip's decision. On the RP2040 and RP2350 it is a warm reset of this core only -
+    // the other core, the peripherals and the clocks keep running (RP2040 datasheet
+    // 2.4.2.9, RP2350 12.9). A whole-chip reboot on those parts is Kvasir::reboot() in the
+    // chip layer (chip/rp_common/bootrom_functions.hpp), which goes through the watchdog.
     using SystemReset = decltype(Kvasir::Peripheral::SCB::Registers<>::AIRCR::overrideDefaults(
       write(Kvasir::Peripheral::SCB::Registers<>::AIRCR::VECTKEYValC::request_reset),
       write(Kvasir::Peripheral::SCB::Registers<>::AIRCR::SYSRESETREQValC::request_reset)));
-}
+}   // namespace SystemControl
 
 namespace Nvic {
 

@@ -646,6 +646,7 @@
                                 field</description
                             >
                             <bitRange>[31:16]</bitRange>
+                            <access>write-only</access>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>Do not request a reset</description>
@@ -663,6 +664,7 @@
                                 >Vector key status. Returns the bitwise inverse of the value required to be written to VECTKEY</description
                             >
                             <bitRange>[31:16]</bitRange>
+                            <access>read-only</access>
                         </field>
                         <field>
                             <name>ENDIANNESS</name>

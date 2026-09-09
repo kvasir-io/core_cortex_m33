@@ -7,10 +7,12 @@
 #include "kvasir/Common/Interrupt.hpp"
 #include "kvasir/Register/Register.hpp"
 #include "kvasir/Register/Utility.hpp"
+#include "kvasir/StartUp/Resources.hpp"
 #include "kvasir/Util/attributes.hpp"
 
 #include <atomic>
 #include <chrono>
+#include <type_traits>
 
 namespace Kvasir {
 namespace Systick {
@@ -42,6 +44,21 @@ namespace Nvic {
     template<>
     struct MakeAction<Action::Read, Index<Kvasir::Interrupt::systick.index()>>
       : decltype(read(SystickRegs::CSR::tickint)){};
+}   // namespace Nvic
+
+// What an init step enables (kvasir/StartUp/Resources.hpp): TICKINT written to one is the
+// SysTick exception.
+namespace Startup {
+    template<unsigned Value>
+        requires(Value != 0)
+    struct InterruptOfAction<
+      Register::Action<std::remove_cvref_t<decltype(Nvic::SystickRegs::CSR::tickint)>,
+                       Register::WriteLiteralAction<Value>>> {
+        using type = brigand::list<std::integral_constant<int, Kvasir::Interrupt::systick.index()>>;
+    };
+}   // namespace Startup
+
+namespace Nvic {
 
     template<int Priority>
     struct MakeAction<Action::SetPriority<Priority>, Index<Kvasir::Interrupt::systick.index()>>
@@ -70,12 +87,20 @@ namespace Systick {
         using Regs                                = Kvasir::Peripheral::SYSTICK::Registers<>;
 
     public:
+        // Startup: on the processor clock this claims it at Config::clockSpeed, so a config
+        // number that is not what the clock settings provide is a build error.
+        using Claims
+          = std::conditional_t<std::is_same_v<std::remove_cvref_t<decltype(Config::clockBase)>,
+                                              std::remove_cvref_t<decltype(useProcessorClock)>>,
+                               brigand::list<Startup::ProcessorClock<Config::clockSpeed>>,
+                               brigand::list<>>;
+
         // chrono interface
         using duration
           = std::chrono::duration<std::int64_t,
                                   std::ratio<1, Config::clockSpeed>>;   // std::chrono::nanoseconds;
         using rep        = typename duration::rep;
-        using priode     = typename duration::period;
+        using period     = typename duration::period;
         using time_point = std::chrono::time_point<SystickClockBase, duration>;
 
         static constexpr bool is_steady = true;
@@ -141,6 +166,37 @@ namespace Systick {
         using overrunT = GetOverrunTypeT<calcOverRunValue(ClockSpeed, Config::minOverrunTime)>;
         static inline std::atomic<overrunT> overruns{};
 
+        // A synchronised clock (Config::synchronised == true) carries an epoch offset so it
+        // can read the same as a reference clock on another core: SysTick is per core, and
+        // the two cores' counters start at different instants. Set once by syncTo() on the
+        // owning core; a plain member, since after that it is only ever read.
+        static constexpr bool Synchronised = [] {
+            if constexpr(requires { Config::synchronised; }) {
+                return static_cast<bool>(Config::synchronised);
+            } else {
+                return false;
+            }
+        }();
+
+        static inline rep epoch_{};
+
+        [[KVASIR_NO_SANITIZE_UNSIGNED_OVERFLOW]] static duration rawNow() {
+            static constexpr auto reloadValue = calcReloadValue(ClockSpeed);
+
+            std::uint32_t currentCount{};
+            overrunT      localOverruns;
+
+            while(true) {
+                currentCount  = apply(read(Regs::CVR::current));
+                localOverruns = overruns.load(std::memory_order_relaxed);
+                if(!fieldEquals(Regs::CSR::COUNTFLAGValC::timer_has_counted_to_0)) { break; }
+            }
+            auto const cnd = duration{reloadValue - currentCount};
+            auto const ovd = duration{static_cast<std::uint64_t>(localOverruns)
+                                      * static_cast<std::uint64_t>(reloadValue + 1)};
+            return cnd + ovd;
+        }
+
         static void onIsr() {
             overrunT old = overruns.load(std::memory_order_relaxed);
             ++old;
@@ -167,22 +223,31 @@ namespace Systick {
 
     public:
         [[KVASIR_NO_SANITIZE_UNSIGNED_OVERFLOW]] static time_point now() {
-            static constexpr auto reloadValue = calcReloadValue(ClockSpeed);
-
-            std::uint32_t currentCount{};
-            overrunT      localOverruns;
-
-            while(true) {
-                currentCount  = apply(read(Regs::CVR::current));
-                localOverruns = overruns.load(std::memory_order_relaxed);
-                if(!fieldEquals(Regs::CSR::COUNTFLAGValC::timer_has_counted_to_0)) { break; }
+            if constexpr(Synchronised) {
+                return time_point{rawNow() + duration{epoch_}};
+            } else {
+                return time_point{rawNow()};
             }
-            auto const cnd  = duration{reloadValue - currentCount};
-            auto const ovd  = duration{static_cast<std::uint64_t>(localOverruns)
-                                       * static_cast<std::uint64_t>(reloadValue + 1)};
-            auto const time = time_point{cnd + ovd};
-            return time;
         }
+
+        // The counter without the epoch: what syncTo(referenceAt, rawAt) pairs a reference
+        // reading with. Only meaningful on the core that owns this SysTick.
+        static duration raw() { return rawNow(); }
+
+        // Make now() read `referenceAt` where raw() read `rawAt`. Only on the core that
+        // owns this SysTick, and only for a synchronised config. The epoch is 64 bits,
+        // i.e. two stores on a 32-bit core, so it is written with interrupts masked: after
+        // syncTo() returns, now() from an ISR on this core is safe.
+        static void syncTo(duration referenceAt,
+                           duration rawAt) {
+            static_assert(Synchronised, "syncTo() needs Config::synchronised = true");
+            bool const enabled = Nvic::disable_all_and_get_old_state();
+            epoch_             = referenceAt.count() - rawAt.count();
+            if(enabled) { Nvic::enable_all(); }
+        }
+
+        // Make now() read `referenceNow` from this instant on.
+        static void syncTo(duration referenceNow) { syncTo(referenceNow, rawNow()); }
 
         template<typename Duration,
                  typename duration::rep value>
