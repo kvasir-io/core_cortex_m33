@@ -1,19 +1,14 @@
 #pragma once
-#include "kvasir/Common/Interrupt.hpp"
+
+// The common exceptions come from core_cortex_common; these are the Armv8-M fault handlers
+// only the Cortex-M33 has.
+#include "cortex_common/CoreInterrupts.hpp"
 
 namespace Kvasir {
-template<int I>
-using Type = ::Kvasir::Nvic::Index<I>;
-
-struct CoreInterrupts {
-    static constexpr Type<-14> nonMaskableInt{};
-    static constexpr Type<-13> hardFault{};
+struct CoreInterrupts : CommonCoreInterrupts {
     static constexpr Type<-12> memoryManagement{};
     static constexpr Type<-11> busFault{};
     static constexpr Type<-10> usageFault{};
     static constexpr Type<-9>  secureFault{};
-    static constexpr Type<-5>  sVCall{};
-    static constexpr Type<-2>  pendSV{};
-    static constexpr Type<-1>  systick{};
 };
 }   // namespace Kvasir

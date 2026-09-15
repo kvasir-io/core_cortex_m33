@@ -230,6 +230,7 @@
                             <bitWidth>1</bitWidth>
                             <dim>32</dim>
                             <dimIncrement>1</dimIncrement>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -259,6 +260,7 @@
                             <bitWidth>1</bitWidth>
                             <dim>32</dim>
                             <dimIncrement>1</dimIncrement>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -277,15 +279,15 @@
                     <displayName>NVIC_IPR_%s</displayName>
                     <description>Sets or reads interrupt priorities</description>
                     <addressOffset>0x300</addressOffset>
-                    <dim>123</dim>
+                    <dim>120</dim>
                     <dimIncrement>4</dimIncrement>
                     <access>read-write</access>
                     <fields>
                         <field>
                             <name>PRI_%s</name>
-                            <description>Set or reads interrupt priorities</description>
-                            <bitOffset>0</bitOffset>
-                            <bitWidth>8</bitWidth>
+                            <description>Priority of interrupt 4n+m. The RP2350's Cortex-M33 implements the top four bits of each byte, [7:4]; the rest read as zero and ignore writes</description>
+                            <bitOffset>4</bitOffset>
+                            <bitWidth>4</bitWidth>
                             <dim>4</dim>
                             <dimIncrement>8</dimIncrement>
                         </field>
@@ -307,6 +309,7 @@
                             <bitWidth>1</bitWidth>
                             <dim>32</dim>
                             <dimIncrement>1</dimIncrement>
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -336,6 +339,7 @@
                             <bitWidth>1</bitWidth>
                             <dim>32</dim>
                             <dimIncrement>1</dimIncrement>
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -1043,22 +1047,22 @@
                         <field>
                             <name>PRI_7</name>
                             <description>Priority 7. Priority of system handler 7, SecureFault</description>
-                            <bitRange>[31:24]</bitRange>
+                            <bitRange>[31:28]</bitRange>
                         </field>
                         <field>
                             <name>PRI_6</name>
                             <description>Priority 6. Priority of system handler 6, UsageFault</description>
-                            <bitRange>[23:16]</bitRange>
+                            <bitRange>[23:20]</bitRange>
                         </field>
                         <field>
                             <name>PRI_5</name>
                             <description>Priority 5. Priority of system handler 5, BusFault</description>
-                            <bitRange>[15:8]</bitRange>
+                            <bitRange>[15:12]</bitRange>
                         </field>
                         <field>
                             <name>PRI_4</name>
                             <description>Priority 4. Priority of system handler 4, MemManage</description>
-                            <bitRange>[7:0]</bitRange>
+                            <bitRange>[7:4]</bitRange>
                         </field>
                     </fields>
                 </register>
@@ -1072,22 +1076,7 @@
                         <field>
                             <name>PRI_11</name>
                             <description>Priority 11. Priority of system handler 11, SVCall</description>
-                            <bitRange>[31:24]</bitRange>
-                        </field>
-                        <field>
-                            <name>PRI_10</name>
-                            <description>Reserved, RES0</description>
-                            <bitRange>[23:16]</bitRange>
-                        </field>
-                        <field>
-                            <name>PRI_9</name>
-                            <description>Reserved, RES0</description>
-                            <bitRange>[15:8]</bitRange>
-                        </field>
-                        <field>
-                            <name>PRI_8</name>
-                            <description>Reserved, RES0</description>
-                            <bitRange>[7:0]</bitRange>
+                            <bitRange>[31:28]</bitRange>
                         </field>
                     </fields>
                 </register>
@@ -1101,22 +1090,17 @@
                         <field>
                             <name>PRI_15</name>
                             <description>Priority 15. Priority of system handler 15, SysTick</description>
-                            <bitRange>[31:24]</bitRange>
+                            <bitRange>[31:28]</bitRange>
                         </field>
                         <field>
                             <name>PRI_14</name>
                             <description>Priority 14. Priority of system handler 14, PendSV</description>
-                            <bitRange>[23:16]</bitRange>
-                        </field>
-                        <field>
-                            <name>PRI_13</name>
-                            <description>Reserved, RES0</description>
-                            <bitRange>[15:8]</bitRange>
+                            <bitRange>[23:20]</bitRange>
                         </field>
                         <field>
                             <name>PRI_12</name>
                             <description>Priority 12. Priority of system handler 12, DebugMonitor</description>
-                            <bitRange>[7:0]</bitRange>
+                            <bitRange>[7:4]</bitRange>
                         </field>
                     </fields>
                 </register>

@@ -1,102 +1,32 @@
 #pragma once
 
-#include "CoreInterrupts.hpp"
-#include "chip/Interrupt.hpp"
-#include "core/Nvic.hpp"
-#include "core_peripherals/SCB.hpp"
-#include "kvasir/Common/Interrupt.hpp"
-#include "kvasir/Register/Utility.hpp"
+// From core_cortex_common, the submodule at src/cortex_common.
+#include "cortex_common/SystemControl.hpp"
 
-#include <cstdint>
+// The Armv8-M fault handlers' priorities (SHPR1), which only this core has. They come up at 0
+// and an application rarely moves them; the actions exist so one that does can.
+namespace Kvasir::Nvic {
+template<int Priority>
+struct MakeAction<Action::SetPriority<Priority>, Index<Interrupt::memoryManagement.index()>>
+  : decltype(Detail::setHandlerPriority<Priority,
+                                        Interrupt::memoryManagement.index(),
+                                        Detail::ScbRegs::SHPR1::pri_4>()) {};
 
-namespace Kvasir {
-namespace SystemControl {
-    // AIRCR.SYSRESETREQ: the core asserts its SYSRESETREQ signal, and what that resets is
-    // the chip's decision. On the RP2040 and RP2350 it is a warm reset of this core only -
-    // the other core, the peripherals and the clocks keep running (RP2040 datasheet
-    // 2.4.2.9, RP2350 12.9). A whole-chip reboot on those parts is Kvasir::reboot() in the
-    // chip layer (chip/rp_common/bootrom_functions.hpp), which goes through the watchdog.
-    using SystemReset = decltype(Kvasir::Peripheral::SCB::Registers<>::AIRCR::overrideDefaults(
-      write(Kvasir::Peripheral::SCB::Registers<>::AIRCR::VECTKEYValC::request_reset),
-      write(Kvasir::Peripheral::SCB::Registers<>::AIRCR::SYSRESETREQValC::request_reset)));
-}   // namespace SystemControl
+template<int Priority>
+struct MakeAction<Action::SetPriority<Priority>, Index<Interrupt::busFault.index()>>
+  : decltype(Detail::setHandlerPriority<Priority,
+                                        Interrupt::busFault.index(),
+                                        Detail::ScbRegs::SHPR1::pri_5>()) {};
 
-namespace Nvic {
+template<int Priority>
+struct MakeAction<Action::SetPriority<Priority>, Index<Interrupt::usageFault.index()>>
+  : decltype(Detail::setHandlerPriority<Priority,
+                                        Interrupt::usageFault.index(),
+                                        Detail::ScbRegs::SHPR1::pri_6>()) {};
 
-    namespace detail { using SCU_R = Kvasir::Peripheral::SCB::Registers<>; }
-
-    // Systick
-    template<>
-    struct MakeAction<Action::SetPending, Index<Interrupt::systick.index()>>
-      : decltype(detail::SCU_R::ICSR::overrideDefaults(
-          write(detail::SCU_R::ICSR::PENDSTSETValC::set_pending))) {
-        static_assert(
-          Detail::interuptIndexValid(Interrupt::systick.index(),
-                                     std::begin(InterruptOffsetTraits<void>::noSetPending),
-                                     std::end(InterruptOffsetTraits<void>::noSetPending)),
-          "Unable to set pending on this interrupt, index is out of range");
-    };
-
-    template<>
-    struct MakeAction<Action::ClearPending, Index<Interrupt::systick.index()>>
-      : decltype(detail::SCU_R::ICSR::overrideDefaults(
-          write(detail::SCU_R::ICSR::PENDSTCLRValC::clear))) {
-        static_assert(
-          Detail::interuptIndexValid(Interrupt::systick.index(),
-                                     std::begin(InterruptOffsetTraits<void>::noClearPending),
-                                     std::end(InterruptOffsetTraits<void>::noClearPending)),
-          "Unable to clear pending on this interrupt, index is out of range");
-    };
-
-    template<int Priority>
-    struct PriorityDisambiguator<Priority, Interrupt::systick.index()>
-      : decltype(write(detail::SCU_R::SHPR3::pri_15,
-                       Register::value<(unsigned(Priority) << 6U)>())){};
-
-    // PendSv
-    template<>
-    struct MakeAction<Action::SetPending, Index<Interrupt::pendSV.index()>>
-      : decltype(detail::SCU_R::ICSR::overrideDefaults(
-          write(detail::SCU_R::ICSR::PENDSVSETValC::set_pending))) {
-        static_assert(
-          Detail::interuptIndexValid(Interrupt::pendSV.index(),
-                                     std::begin(InterruptOffsetTraits<void>::noSetPending),
-                                     std::end(InterruptOffsetTraits<void>::noSetPending)),
-          "Unable to set pending on this interrupt, index is out of range");
-    };
-
-    template<>
-    struct MakeAction<Action::ClearPending, Index<Interrupt::pendSV.index()>>
-      : decltype(detail::SCU_R::ICSR::overrideDefaults(
-          write(detail::SCU_R::ICSR::PENDSVCLRValC::clear))) {
-        static_assert(
-          Detail::interuptIndexValid(Interrupt::pendSV.index(),
-                                     std::begin(InterruptOffsetTraits<void>::noClearPending),
-                                     std::end(InterruptOffsetTraits<void>::noClearPending)),
-          "Unable to clear pending on this interrupt, index is out of range");
-    };
-
-    template<int Priority>
-    struct PriorityDisambiguator<Priority, Interrupt::pendSV.index()>
-      : decltype(write(detail::SCU_R::SHPR3::pri_14,
-                       Register::value<(unsigned(Priority) << 6U)>())){};
-
-    // nonMaskableInt
-    template<>
-    struct MakeAction<Action::SetPending, Index<Interrupt::nonMaskableInt.index()>>
-      : decltype(detail::SCU_R::ICSR::overrideDefaults(
-          write(detail::SCU_R::ICSR::NMIPENDSETValC::set_pending))) {
-        static_assert(
-          Detail::interuptIndexValid(Interrupt::nonMaskableInt.index(),
-                                     std::begin(InterruptOffsetTraits<void>::noSetPending),
-                                     std::end(InterruptOffsetTraits<void>::noSetPending)),
-          "Unable to set pending on this interrupt, index is out of range");
-    };
-
-    // SVCall
-    template<int Priority>
-    struct PriorityDisambiguator<Priority, Interrupt::sVCall.index()>
-      : decltype(write(detail::SCU_R::SHPR2::pri_11,
-                       Register::value<(unsigned(Priority) << 6U)>())){};
-}   // namespace Nvic
-}   // namespace Kvasir
+template<int Priority>
+struct MakeAction<Action::SetPriority<Priority>, Index<Interrupt::secureFault.index()>>
+  : decltype(Detail::setHandlerPriority<Priority,
+                                        Interrupt::secureFault.index(),
+                                        Detail::ScbRegs::SHPR1::pri_7>()) {};
+}   // namespace Kvasir::Nvic
