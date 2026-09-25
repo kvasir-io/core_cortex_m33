@@ -11,8 +11,9 @@ using Kvasir::Register::apply;
 using Kvasir::Register::read;
 using Kvasir::Register::write;
 
-namespace Kvasir::Core::Fault {
-
+// Kvasir::Fault::Core, next to the SDK's Kvasir::Fault (FaultHandler.hpp): its log module is
+// "fault.core", derived from the scope.
+namespace Kvasir::Fault::Core {
 using SCB_R = Kvasir::Peripheral::SCB::Registers<>;
 
 enum class FaultType : std::uint8_t { Hard, Usage, Bus, MemManage };
@@ -223,7 +224,7 @@ using EarlyInitList = decltype(MPL::list(
 
 static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
                        [[maybe_unused]] std::uint32_t        lr_value) {
-    [[maybe_unused]] FaultInfo const fault_info = Core::Fault::GetFaultInfo();
+    [[maybe_unused]] FaultInfo const fault_info = GetFaultInfo();
 
     UC_LOG_C(
       "COREFAULT type({}Fault) forced({}) info({}) flags({:#010x}) address({:#010x}) "
@@ -246,4 +247,4 @@ static inline void Log([[maybe_unused]] std::uint32_t const* stack_ptr,
       lr_value);
 }
 
-}   // namespace Kvasir::Core::Fault
+}   // namespace Kvasir::Fault::Core
