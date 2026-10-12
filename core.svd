@@ -2894,5 +2894,125 @@
                 </register>
             </registers>
         </peripheral>
+        <!-- Kvasir: the Floating-point Extension's context control register, Armv8-M ARM DDI0553B.y D1.2.100 (FPCCR at
+             0xE000EF34; ASPEN, LSPEN and S reset to one, the other fields to zero or UNKNOWN). Named as core_cortex_m4's
+             FP block, LSPACT's values too, so one source reads both cores. -->
+        <peripheral>
+            <name>FP</name>
+            <description>Floating-Point Extension</description>
+            <baseAddress>0xE000EF34</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x4</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Floating Point Context Control Register</name>
+                    <displayName>FPCCR</displayName>
+                    <description>Holds control data for the Floating Point Unit</description>
+                    <addressOffset>0x0</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0xC0000004</resetValue>
+                    <fields>
+                        <field>
+                            <name>ASPEN</name>
+                            <description>Automatic state preservation enable: a floating-point instruction sets CONTROL.FPCA</description>
+                            <bitRange>[31:31]</bitRange>
+                        </field>
+                        <field>
+                            <name>LSPEN</name>
+                            <description>Lazy Floating-point state preservation enable</description>
+                            <bitRange>[30:30]</bitRange>
+                        </field>
+                        <field>
+                            <name>LSPENS</name>
+                            <description>LSPEN writable from both Security states (0) or from Secure state only (1)</description>
+                            <bitRange>[29:29]</bitRange>
+                        </field>
+                        <field>
+                            <name>CLRONRET</name>
+                            <description>Clear the Floating-point context on exception return</description>
+                            <bitRange>[28:28]</bitRange>
+                        </field>
+                        <field>
+                            <name>CLRONRETS</name>
+                            <description>CLRONRET writable from both Security states (0) or from Secure state only (1)</description>
+                            <bitRange>[27:27]</bitRange>
+                        </field>
+                        <field>
+                            <name>TS</name>
+                            <description>Treat Floating-point registers as Secure</description>
+                            <bitRange>[26:26]</bitRange>
+                        </field>
+                        <field>
+                            <name>UFRDY</name>
+                            <description>UsageFault ready when the lazy state preservation was activated</description>
+                            <bitRange>[10:10]</bitRange>
+                        </field>
+                        <field>
+                            <name>SPLIMVIOL</name>
+                            <description>The lazy state preservation's stacking would violate the stack pointer limit</description>
+                            <bitRange>[9:9]</bitRange>
+                        </field>
+                        <field>
+                            <name>MONRDY</name>
+                            <description>DebugMonitor ready when the lazy state preservation was activated</description>
+                            <bitRange>[8:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>SFRDY</name>
+                            <description>SecureFault ready when the lazy state preservation was activated</description>
+                            <bitRange>[7:7]</bitRange>
+                        </field>
+                        <field>
+                            <name>BFRDY</name>
+                            <description>BusFault ready when the lazy state preservation was activated</description>
+                            <bitRange>[6:6]</bitRange>
+                        </field>
+                        <field>
+                            <name>MMRDY</name>
+                            <description>MemManage ready when the lazy state preservation was activated</description>
+                            <bitRange>[5:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>HFRDY</name>
+                            <description>HardFault ready when the lazy state preservation was activated</description>
+                            <bitRange>[4:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>THREAD</name>
+                            <description>Thread mode when the lazy state preservation was activated</description>
+                            <bitRange>[3:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>S</name>
+                            <description>Security state of the context the lazy state preservation belongs to</description>
+                            <bitRange>[2:2]</bitRange>
+                        </field>
+                        <field>
+                            <name>USER</name>
+                            <description>Unprivileged when the lazy state preservation was activated</description>
+                            <bitRange>[1:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>LSPACT</name>
+                            <description>Indicates whether Lazy preservation of the FP state is active</description>
+                            <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Lazy state preservation is not active</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Lazy state preservation is active</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
     </peripherals>
 </device>
