@@ -1,6 +1,9 @@
 #pragma once
 #include "core_peripherals/DCB.hpp"
+#include "core_peripherals/DWT.hpp"
 #include "kvasir/Register/Register.hpp"
+
+#include <cstdint>
 
 namespace Kvasir::Core::Debug {
 
@@ -14,4 +17,22 @@ using DCB_R = Kvasir::Peripheral::DCB::Registers<>;
     return get<0>(apply(read(DCB_R::DHCSR::c_debugen))) != 0u;
 }
 
+using DWT_R = Kvasir::Peripheral::DWT::Registers<>;
+
+// The DWT cycle counter: DWT_CYCCNT counts core cycles while DEMCR.TRCENA and DWT_CTRL.CYCCNTENA are set and wraps to
+// zero; Armv8-M ARM DDI0553B.y D1.2.37 (DEMCR), D1.2.58 (DWT_CTRL), D1.2.59 (DWT_CYCCNT). TRCENA first: the DWT is not
+// written while it is off - three apply()s, one apply() would order the stores by address. Each set() is a load, an OR
+// and a store; the counter's write covers its register, one store.
+[[gnu::always_inline]] inline void enableCycleCounter() {   // inlined: a RAM function may call it
+    using namespace Kvasir::Register;
+    apply(set(DCB_R::DEMCR::trcena));
+    apply(write(DWT_R::CYCCNT::cyccnt, value<std::uint32_t, 0U>()));
+    apply(set(DWT_R::CTRL::cyccntena));
+}
+
+// The cycle count now: one load, always inlined (an ISR profiler's entry and exit).
+[[gnu::always_inline]] inline std::uint32_t cycleCount() {
+    using namespace Kvasir::Register;
+    return get<0>(apply(read(DWT_R::CYCCNT::cyccnt)));
+}
 }   // namespace Kvasir::Core::Debug

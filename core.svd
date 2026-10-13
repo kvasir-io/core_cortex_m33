@@ -446,6 +446,8 @@
                             <name>NMIPENDSET</name>
                             <description>Pend NMI set. Allows the NMI exception to be set as pending</description>
                             <bitRange>[31:31]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 sets the exception pending, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -462,6 +464,8 @@
                             <name>NMIPENDCLR</name>
                             <description>Pend NMI clear. Allows the NMI exception pend state to be cleared</description>
                             <bitRange>[30:30]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 clears its pending state, reads 0, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -480,6 +484,8 @@
                                 pending</description
                             >
                             <bitRange>[28:28]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 sets the exception pending, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>PendSV exception not pending</description>
@@ -496,6 +502,8 @@
                             <name>PENDSVCLR</name>
                             <description>Pend PendSV clear</description>
                             <bitRange>[27:27]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 clears its pending state, reads 0, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -515,6 +523,8 @@
                                 pending</description
                             >
                             <bitRange>[26:26]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 sets the exception pending, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <name>cleared</name>
@@ -532,6 +542,8 @@
                             <name>PENDSTCLR</name>
                             <description>Pend SysTick clear</description>
                             <bitRange>[25:25]</bitRange>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.126: a 1 clears its pending state, reads 0, a 0 is ignored -->
+                            <modifiedWriteValues>oneToSet</modifiedWriteValues>
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>No effect</description>
@@ -2801,6 +2813,233 @@
                 </register>
             </registers>
         </peripheral>
+        <!-- Kvasir: the Security Attribution Unit's fault registers only, Armv8-M ARM DDI0553B.y D1.2.232 SFSR (0xE000EDE4,
+             read/write-one-to-clear, bits 31:8 RES0) and D1.2.231 SFAR (0xE000EDE8; both RAZ/WI from Non-secure). The
+             SAU's region registers (SAU_CTRL at the base 0xE000EDD0 .. SAU_RLAR) are left out: nothing uses them. -->
+        <peripheral>
+            <name>SAU</name>
+            <description>Security Attribution Unit (fault registers)</description>
+            <baseAddress>0xE000EDD0</baseAddress>
+            <addressBlock>
+                <offset>0x14</offset>
+                <size>0x8</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Secure Fault Status Register</name>
+                    <displayName>SFSR</displayName>
+                    <description>Provides information about any security related faults</description>
+                    <addressOffset>0x14</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>LSERR</name>
+                            <description>Lazy state error flag</description>
+                            <bitRange>[7:7]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>SFARVALID</name>
+                            <description>Secure fault address valid</description>
+                            <bitRange>[6:6]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>LSPERR</name>
+                            <description>Lazy state preservation error flag</description>
+                            <bitRange>[5:5]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>INVTRAN</name>
+                            <description>Invalid transition flag</description>
+                            <bitRange>[4:4]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>AUVIOL</name>
+                            <description>Attribution unit violation flag</description>
+                            <bitRange>[3:3]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>INVER</name>
+                            <description>Invalid exception return flag</description>
+                            <bitRange>[2:2]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>INVIS</name>
+                            <description>Invalid integrity signature flag</description>
+                            <bitRange>[1:1]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                        <field>
+                            <name>INVEP</name>
+                            <description>Invalid entry point</description>
+                            <bitRange>[0:0]</bitRange>
+                            <modifiedWriteValues>oneToClear</modifiedWriteValues>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Secure Fault Address Register</name>
+                    <displayName>SFAR</displayName>
+                    <description>The address of an access that caused an attribution unit violation</description>
+                    <addressOffset>0x18</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>ADDRESS</name>
+                            <description>Valid while SFSR.SFARVALID is set</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
+        <!-- Kvasir: the DWT's control register and cycle counter, Armv8-M ARM DDI0553B.y D1.2.58 (DWT_CTRL at 0xE0001000,
+             word access only; NUMCOMP and the NO* bits read-only, IMPLEMENTATION DEFINED; bits 15:13 RES0) and D1.2.59
+             (DWT_CYCCNT at 0xE0001004, counts while DWT_CTRL.CYCCNTENA and DEMCR.TRCENA are set, wraps to zero). Named
+             as core_cortex_m4's DWT, so one source reads both cores. The comparators are left out: nothing uses them. -->
+        <peripheral>
+            <name>DWT</name>
+            <description>Data Watchpoint and Trace</description>
+            <baseAddress>0xE0001000</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x8</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>Control register</name>
+                    <displayName>DWT_CTRL</displayName>
+                    <description>Provides configuration and status information for the DWT unit, and used to control features of the unit</description>
+                    <addressOffset>0x0</addressOffset>
+                    <access>read-write</access>
+                    <fields>
+                        <field>
+                            <name>NUMCOMP</name>
+                            <description>Number of comparators</description>
+                            <bitRange>[31:28]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>NOTRCPKT</name>
+                            <description>Trace sampling and exception tracing not supported</description>
+                            <bitRange>[27:27]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>NOEXTTRIG</name>
+                            <description>External match signals not supported</description>
+                            <bitRange>[26:26]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>NOCYCCNT</name>
+                            <description>Cycle counter not supported</description>
+                            <bitRange>[25:25]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>NOPRFCNT</name>
+                            <description>Profiling counters not supported</description>
+                            <bitRange>[24:24]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>CYCDISS</name>
+                            <description>Halt the cycle counter while the PE is in Secure state and Secure non-invasive debug is not allowed</description>
+                            <bitRange>[23:23]</bitRange>
+                        </field>
+                        <field>
+                            <name>CYCEVTENA</name>
+                            <description>Enable POSTCNT underflow Event counter packets</description>
+                            <bitRange>[22:22]</bitRange>
+                        </field>
+                        <field>
+                            <name>FOLDEVTENA</name>
+                            <description>Enable DWT_FOLDCNT counter</description>
+                            <bitRange>[21:21]</bitRange>
+                        </field>
+                        <field>
+                            <name>LSUEVTENA</name>
+                            <description>Enable DWT_LSUCNT counter</description>
+                            <bitRange>[20:20]</bitRange>
+                        </field>
+                        <field>
+                            <name>SLEEPEVTENA</name>
+                            <description>Enable DWT_SLEEPCNT counter</description>
+                            <bitRange>[19:19]</bitRange>
+                        </field>
+                        <field>
+                            <name>EXCEVTENA</name>
+                            <description>Enable DWT_EXCCNT counter</description>
+                            <bitRange>[18:18]</bitRange>
+                        </field>
+                        <field>
+                            <name>CPIEVTENA</name>
+                            <description>Enable DWT_CPICNT counter</description>
+                            <bitRange>[17:17]</bitRange>
+                        </field>
+                        <field>
+                            <name>EXCTRCENA</name>
+                            <description>Enable exception trace</description>
+                            <bitRange>[16:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>PCSAMPLENA</name>
+                            <description>Enable PC sample packets</description>
+                            <bitRange>[12:12]</bitRange>
+                        </field>
+                        <field>
+                            <name>SYNCTAP</name>
+                            <description>Synchronization packet rate</description>
+                            <bitRange>[11:10]</bitRange>
+                        </field>
+                        <field>
+                            <name>CYCTAP</name>
+                            <description>Cycle count tap</description>
+                            <bitRange>[9:9]</bitRange>
+                        </field>
+                        <field>
+                            <name>POSTINIT</name>
+                            <description>POSTCNT initial value</description>
+                            <bitRange>[8:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>POSTPRESET</name>
+                            <description>POSTCNT reload value</description>
+                            <bitRange>[4:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>CYCCNTENA</name>
+                            <description>Enable CYCCNT</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>Cycle Count register</name>
+                    <displayName>DWT_CYCCNT</displayName>
+                    <description>Shows or sets the value of the processor cycle counter, CYCCNT</description>
+                    <addressOffset>0x4</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>CYCCNT</name>
+                            <description>Incrementing cycle counter value</description>
+                            <bitRange>[31:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
         <peripheral>
             <name>DCB</name>
             <description>Debug Control Block</description>
@@ -2888,6 +3127,104 @@
                         <field>
                             <name>C_DEBUGEN</name>
                             <description>Enable Halting debug. Set by the debugger when it attaches</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <!-- Kvasir: DEMCR, Armv8-M ARM DDI0553B.y D1.2.37 (0xE000EDFC; bits 31:25, 22, 15:12 and 3:1 RES0;
+                     SDME read-only). Named as core_cortex_m4's DCB.DEMCR, so one source reads both cores. -->
+                <register>
+                    <name>Debug Exception and Monitor Control Register</name>
+                    <displayName>DEMCR</displayName>
+                    <description>Manages vector catch behavior and DebugMonitor handling when debugging</description>
+                    <addressOffset>0xC</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>TRCENA</name>
+                            <description>Global enable for the DWT and ITM</description>
+                            <bitRange>[24:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>MONPRKEY</name>
+                            <description>DebugMonitor semaphore bit</description>
+                            <bitRange>[23:23]</bitRange>
+                        </field>
+                        <field>
+                            <name>UMON_EN</name>
+                            <description>Unprivileged DebugMonitor enable</description>
+                            <bitRange>[21:21]</bitRange>
+                        </field>
+                        <field>
+                            <name>SDME</name>
+                            <description>Secure DebugMonitor enable (read-only)</description>
+                            <bitRange>[20:20]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>MON_REQ</name>
+                            <description>DebugMonitor request</description>
+                            <bitRange>[19:19]</bitRange>
+                        </field>
+                        <field>
+                            <name>MON_STEP</name>
+                            <description>Enable DebugMonitor stepping</description>
+                            <bitRange>[18:18]</bitRange>
+                        </field>
+                        <field>
+                            <name>MON_PEND</name>
+                            <description>Sets or clears the pending state of the DebugMonitor exception</description>
+                            <bitRange>[17:17]</bitRange>
+                        </field>
+                        <field>
+                            <name>MON_EN</name>
+                            <description>Enable the DebugMonitor exception</description>
+                            <bitRange>[16:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_SFERR</name>
+                            <description>Vector catch on SecureFault</description>
+                            <bitRange>[11:11]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_HARDERR</name>
+                            <description>Vector catch on HardFault</description>
+                            <bitRange>[10:10]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_INTERR</name>
+                            <description>Vector catch on exception entry and return faults</description>
+                            <bitRange>[9:9]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_BUSERR</name>
+                            <description>Vector catch on BusFault</description>
+                            <bitRange>[8:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_STATERR</name>
+                            <description>Vector catch on UsageFault state errors</description>
+                            <bitRange>[7:7]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_CHKERR</name>
+                            <description>Vector catch on UsageFault checking errors</description>
+                            <bitRange>[6:6]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_NOCPERR</name>
+                            <description>Vector catch on UsageFault coprocessor errors</description>
+                            <bitRange>[5:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_MMERR</name>
+                            <description>Vector catch on MemManage</description>
+                            <bitRange>[4:4]</bitRange>
+                        </field>
+                        <field>
+                            <name>VC_CORERESET</name>
+                            <description>Vector catch on a Local reset</description>
                             <bitRange>[0:0]</bitRange>
                         </field>
                     </fields>
