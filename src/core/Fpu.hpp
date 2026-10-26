@@ -18,14 +18,15 @@
 //
 //     using Startup = Kvasir::Startup::Startup<..., Kvasir::Fpu::ExceptionMonitor>;
 //
-// FPSCR IOC bit 0, DZC bit 1, OFC bit 2: Armv8-M ARM DDI0553B.y D1.2.103; no traps: RP2350
-// datasheet 3.7.3.5.2 ("The FPU does not support exception traps").
+// FPSCR IOC bit 0, DZC bit 1, OFC bit 2: Armv8-M ARM DDI0553B.y D1.2.103 (md l.79783); no
+// traps: Cortex-M33 TRM 100230 B5.2.4 "Exceptions" ("The FPU does not support exception
+// traps", md l.2377).
 
-#include "kvasir/StartUp/Hooks.hpp"
+#include "kvasir/Port/Extends.hpp"
 
 #include <cstdint>
 
-#if !defined(__ARM_FP)
+#ifndef __ARM_FP
     #error "Kvasir::Fpu: this build has no FPU (-mfloat-abi=soft): there is no FPSCR to read"
 #endif
 

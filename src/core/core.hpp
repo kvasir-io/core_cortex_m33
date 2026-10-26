@@ -1,16 +1,3 @@
 #pragma once
-
-#include "core_peripherals/CMO.hpp"
-#include "core_peripherals/FP.hpp"
-#include "core_peripherals/NVIC.hpp"
-#include "core_peripherals/SCB.hpp"
-#include "core_peripherals/SYSTICK.hpp"
-
-//
-#include "Barrier.hpp"
-#include "CoreInterrupts.hpp"
-#include "Debug.hpp"
-#include "Nvic.hpp"
-#include "StartUp.hpp"
-#include "SystemControl.hpp"
-#include "Systick.hpp"
+// The core's whole API: core_cortex_common's CoreAll.hpp, the same list for every core.
+#include "cortex_common/CoreAll.hpp"

@@ -2813,6 +2813,380 @@
                 </register>
             </registers>
         </peripheral>
+        <!-- Kvasir: the PMSAv8 MPU, Armv8-M ARM DDI0553B.y D1.2.168-176: MPU_TYPE (0xE000ED90, read-only, DREGION 15:8
+             IMPLEMENTATION DEFINED, md l.86690), MPU_CTRL (0xE000ED94, PRIVDEFENA/HFNMIENA/ENABLE reset 0, md l.85950),
+             MPU_RNR (0xE000ED98, REGION 7:0, md l.86629), MPU_RBAR / MPU_RLAR (0xE000ED9C / 0xE000EDA0, md l.86191, l.86401;
+             RLAR.PXN bit 4 is RES0 without Armv8.1-M, the Cortex-M33 is Armv8.0-M), their aliases MPU_RBAR_An / MPU_RLAR_An
+             n = 1..3 (0xE000EDA4 ..; D1.2.172, D1.2.174) and MPU_MAIR0/1 (0xE000EDC0/4, Attr m at 8m+7:8m, md l.86067).
+             Every field but RLAR.EN and the CTRL bits resets to an UNKNOWN value (resetMask). Word access only, privileged.
+             The RP2350's chip.svd has the same registers in its PPB block (RP2350 datasheet 3.7, Tables 232-236): the
+             core's are the ones core/Mpu.hpp names. -->
+        <peripheral>
+            <name>MPU</name>
+            <description>Memory Protection Unit (PMSAv8)</description>
+            <baseAddress>0xE000ED90</baseAddress>
+            <addressBlock>
+                <offset>0x0</offset>
+                <size>0x38</size>
+                <usage>registers</usage>
+            </addressBlock>
+            <registers>
+                <register>
+                    <name>MPU Type Register</name>
+                    <displayName>MPU_TYPE</displayName>
+                    <description>How many regions the MPU supports</description>
+                    <addressOffset>0x00</addressOffset>
+                    <access>read-only</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>DREGION</name>
+                            <description>Number of regions supported by the MPU</description>
+                            <bitRange>[15:8]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                        <field>
+                            <name>SEPARATE</name>
+                            <description>Separate instruction and data regions: 0 on Armv8-M</description>
+                            <bitRange>[0:0]</bitRange>
+                            <access>read-only</access>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Control Register</name>
+                    <displayName>MPU_CTRL</displayName>
+                    <description>Enables the MPU, the system address map as background region for privileged accesses, and the MPU for priorities below 0</description>
+                    <addressOffset>0x04</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <fields>
+                        <field>
+                            <name>PRIVDEFENA</name>
+                            <description>Privileged default enable: the system address map for privileged accesses outside every region</description>
+                            <bitRange>[2:2]</bitRange>
+                        </field>
+                        <field>
+                            <name>HFNMIENA</name>
+                            <description>The MPU also for HardFault, NMI and FAULTMASK = 1</description>
+                            <bitRange>[1:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>ENABLE</name>
+                            <description>Enables the MPU</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Number Register</name>
+                    <displayName>MPU_RNR</displayName>
+                    <description>The region MPU_RBAR and MPU_RLAR access</description>
+                    <addressOffset>0x08</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>REGION</name>
+                            <description>The region accessed by MPU_RBAR and MPU_RLAR</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Base Address Register</name>
+                    <displayName>MPU_RBAR</displayName>
+                    <description>Base address and attributes of the region MPU_RNR selects</description>
+                    <addressOffset>0x0C</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>BASE</name>
+                            <description>Bits 31:5 of the region's inclusive lower limit (the base, zero-extended)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>SH</name>
+                            <description>Shareability of Normal memory: 0b00 non-shareable, 0b10 outer, 0b11 inner</description>
+                            <bitRange>[4:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>AP</name>
+                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <bitRange>[2:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>XN</name>
+                            <description>Execute never</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Limit Address Register</name>
+                    <displayName>MPU_RLAR</displayName>
+                    <description>Limit address, attribute index and enable of the region MPU_RNR selects</description>
+                    <addressOffset>0x10</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000001</resetMask>
+                    <fields>
+                        <field>
+                            <name>LIMIT</name>
+                            <description>Bits 31:5 of the region's inclusive upper limit (postfixed with 0x1F)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTRINDX</name>
+                            <description>Which MPU_MAIR0/1 attribute the region takes</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>EN</name>
+                            <description>Region enable</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Base Address Register Alias 1</name>
+                    <displayName>MPU_RBAR_A1</displayName>
+                    <description>MPU_RBAR of region MPU_RNR[7:2]:1</description>
+                    <addressOffset>0x14</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>BASE</name>
+                            <description>Bits 31:5 of the region's inclusive lower limit (the base, zero-extended)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>SH</name>
+                            <description>Shareability of Normal memory: 0b00 non-shareable, 0b10 outer, 0b11 inner</description>
+                            <bitRange>[4:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>AP</name>
+                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <bitRange>[2:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>XN</name>
+                            <description>Execute never</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Limit Address Register Alias 1</name>
+                    <displayName>MPU_RLAR_A1</displayName>
+                    <description>MPU_RLAR of region MPU_RNR[7:2]:1</description>
+                    <addressOffset>0x18</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000001</resetMask>
+                    <fields>
+                        <field>
+                            <name>LIMIT</name>
+                            <description>Bits 31:5 of the region's inclusive upper limit (postfixed with 0x1F)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTRINDX</name>
+                            <description>Which MPU_MAIR0/1 attribute the region takes</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>EN</name>
+                            <description>Region enable</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Base Address Register Alias 2</name>
+                    <displayName>MPU_RBAR_A2</displayName>
+                    <description>MPU_RBAR of region MPU_RNR[7:2]:2</description>
+                    <addressOffset>0x1C</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>BASE</name>
+                            <description>Bits 31:5 of the region's inclusive lower limit (the base, zero-extended)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>SH</name>
+                            <description>Shareability of Normal memory: 0b00 non-shareable, 0b10 outer, 0b11 inner</description>
+                            <bitRange>[4:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>AP</name>
+                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <bitRange>[2:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>XN</name>
+                            <description>Execute never</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Limit Address Register Alias 2</name>
+                    <displayName>MPU_RLAR_A2</displayName>
+                    <description>MPU_RLAR of region MPU_RNR[7:2]:2</description>
+                    <addressOffset>0x20</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000001</resetMask>
+                    <fields>
+                        <field>
+                            <name>LIMIT</name>
+                            <description>Bits 31:5 of the region's inclusive upper limit (postfixed with 0x1F)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTRINDX</name>
+                            <description>Which MPU_MAIR0/1 attribute the region takes</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>EN</name>
+                            <description>Region enable</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Base Address Register Alias 3</name>
+                    <displayName>MPU_RBAR_A3</displayName>
+                    <description>MPU_RBAR of region MPU_RNR[7:2]:3</description>
+                    <addressOffset>0x24</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>BASE</name>
+                            <description>Bits 31:5 of the region's inclusive lower limit (the base, zero-extended)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>SH</name>
+                            <description>Shareability of Normal memory: 0b00 non-shareable, 0b10 outer, 0b11 inner</description>
+                            <bitRange>[4:3]</bitRange>
+                        </field>
+                        <field>
+                            <name>AP</name>
+                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <bitRange>[2:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>XN</name>
+                            <description>Execute never</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Region Limit Address Register Alias 3</name>
+                    <displayName>MPU_RLAR_A3</displayName>
+                    <description>MPU_RLAR of region MPU_RNR[7:2]:3</description>
+                    <addressOffset>0x28</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000001</resetMask>
+                    <fields>
+                        <field>
+                            <name>LIMIT</name>
+                            <description>Bits 31:5 of the region's inclusive upper limit (postfixed with 0x1F)</description>
+                            <bitRange>[31:5]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTRINDX</name>
+                            <description>Which MPU_MAIR0/1 attribute the region takes</description>
+                            <bitRange>[3:1]</bitRange>
+                        </field>
+                        <field>
+                            <name>EN</name>
+                            <description>Region enable</description>
+                            <bitRange>[0:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Memory Attribute Indirection Register 0</name>
+                    <displayName>MPU_MAIR0</displayName>
+                    <description>Memory attributes for AttrIndx 0..3</description>
+                    <addressOffset>0x30</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>ATTR3</name>
+                            <description>Memory attributes of the regions with AttrIndx 3</description>
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR2</name>
+                            <description>Memory attributes of the regions with AttrIndx 2</description>
+                            <bitRange>[23:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR1</name>
+                            <description>Memory attributes of the regions with AttrIndx 1</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR0</name>
+                            <description>Memory attributes of the regions with AttrIndx 0</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+                <register>
+                    <name>MPU Memory Attribute Indirection Register 1</name>
+                    <displayName>MPU_MAIR1</displayName>
+                    <description>Memory attributes for AttrIndx 4..7</description>
+                    <addressOffset>0x34</addressOffset>
+                    <access>read-write</access>
+                    <resetValue>0x00000000</resetValue>
+                    <resetMask>0x00000000</resetMask>
+                    <fields>
+                        <field>
+                            <name>ATTR7</name>
+                            <description>Memory attributes of the regions with AttrIndx 7</description>
+                            <bitRange>[31:24]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR6</name>
+                            <description>Memory attributes of the regions with AttrIndx 6</description>
+                            <bitRange>[23:16]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR5</name>
+                            <description>Memory attributes of the regions with AttrIndx 5</description>
+                            <bitRange>[15:8]</bitRange>
+                        </field>
+                        <field>
+                            <name>ATTR4</name>
+                            <description>Memory attributes of the regions with AttrIndx 4</description>
+                            <bitRange>[7:0]</bitRange>
+                        </field>
+                    </fields>
+                </register>
+            </registers>
+        </peripheral>
         <!-- Kvasir: the Security Attribution Unit's fault registers only, Armv8-M ARM DDI0553B.y D1.2.232 SFSR (0xE000EDE4,
              read/write-one-to-clear, bits 31:8 RES0) and D1.2.231 SFAR (0xE000EDE8; both RAZ/WI from Non-secure). The
              SAU's region registers (SAU_CTRL at the base 0xE000EDD0 .. SAU_RLAR) are left out: nothing uses them. -->
@@ -3124,10 +3498,22 @@
                             <description>PE enter Debug state halt request</description>
                             <bitRange>[1:1]</bitRange>
                         </field>
+                        <!-- Kvasir: the values as core_cortex_m4's DCB.DHCSR.C_DEBUGEN names them, so one source reads both
+                             cores (DDI0553B.y D1.2.39, md l.72932: 0 Disabled, 1 Enabled). -->
                         <field>
                             <name>C_DEBUGEN</name>
                             <description>Enable Halting debug. Set by the debugger when it attaches</description>
                             <bitRange>[0:0]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Enabled</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
                         </field>
                     </fields>
                 </register>
@@ -3141,10 +3527,22 @@
                     <access>read-write</access>
                     <resetValue>0x00000000</resetValue>
                     <fields>
+                        <!-- Kvasir: the values as core_cortex_m4's DCB.DEMCR.TRCENA names them (DDI0553B.y D1.2.37, md l.71833:
+                             0 DWT, PMU and ITM disabled, 1 enabled). -->
                         <field>
                             <name>TRCENA</name>
                             <description>Global enable for the DWT and ITM</description>
                             <bitRange>[24:24]</bitRange>
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>DWT and ITM units disabled</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>DWT and ITM units enabled</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
                         </field>
                         <field>
                             <name>MONPRKEY</name>
