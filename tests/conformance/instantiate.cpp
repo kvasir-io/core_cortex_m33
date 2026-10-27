@@ -16,26 +16,26 @@
 
 #include <array>
 
-namespace Conformance {
-[[gnu::used]] static void coreWrites() {
-    using Kvasir::Register::apply;
-    apply(Kvasir::Nvic::makeEnable(Kvasir::Interrupt::systick));
-    apply(Kvasir::Nvic::makeDisable(Kvasir::Interrupt::systick));
-    apply(Kvasir::Nvic::makeSetPending(Kvasir::Interrupt::systick));
-    apply(Kvasir::Nvic::makeClearPending(Kvasir::Interrupt::systick));
-    apply(Kvasir::Nvic::makeSetPriority<1>(Kvasir::Interrupt::systick));
-    apply(Kvasir::Nvic::makeEnable(Kvasir::Interrupt::dma_0));
-    apply(Kvasir::Nvic::makeSetPriority<2>(Kvasir::Interrupt::dma_0));
-    apply(Kvasir::SystemControl::SystemReset{});
-    Kvasir::Core::Debug::enableCycleCounter();
-    static_cast<void>(SystickClock::now());
-    // the MPU mechanism (core/Mpu.hpp): every register write it makes
-    Kvasir::Core::Mpu::disable();
-    Kvasir::Core::Mpu::setAttributes(Kvasir::Core::Mpu::normalWriteBack);
-    std::array<Kvasir::Core::Mpu::Region, 1> const regions{
-      {{.begin = 0x2000'0000U, .end = 0x2000'1000U, .readOnly = false, .execute = false}}};
-    static_cast<void>(Kvasir::Core::Mpu::program<8>(regions));
-    Kvasir::Core::Mpu::enable(true);
-    static_cast<void>(Kvasir::Core::Mpu::regionCount());
-}
-}   // namespace Conformance
+namespace Conformance { namespace {
+    [[gnu::used]] void coreWrites() {
+        using Kvasir::Register::apply;
+        apply(Kvasir::Nvic::makeEnable(Kvasir::Interrupt::systick));
+        apply(Kvasir::Nvic::makeDisable(Kvasir::Interrupt::systick));
+        apply(Kvasir::Nvic::makeSetPending(Kvasir::Interrupt::systick));
+        apply(Kvasir::Nvic::makeClearPending(Kvasir::Interrupt::systick));
+        apply(Kvasir::Nvic::makeSetPriority<1>(Kvasir::Interrupt::systick));
+        apply(Kvasir::Nvic::makeEnable(Kvasir::Interrupt::dma_0));
+        apply(Kvasir::Nvic::makeSetPriority<2>(Kvasir::Interrupt::dma_0));
+        apply(Kvasir::SystemControl::SystemReset{});
+        Kvasir::Core::Debug::enableCycleCounter();
+        static_cast<void>(SystickClock::now());
+        // the MPU mechanism (core/Mpu.hpp): every register write it makes
+        Kvasir::Core::Mpu::disable();
+        Kvasir::Core::Mpu::setAttributes(Kvasir::Core::Mpu::normalWriteBack);
+        std::array<Kvasir::Core::Mpu::Region, 1> const regions{
+          {{.begin = 0x2000'0000U, .end = 0x2000'1000U, .readOnly = false, .execute = false}}};
+        static_cast<void>(Kvasir::Core::Mpu::program<8>(regions));
+        Kvasir::Core::Mpu::enable(true);
+        static_cast<void>(Kvasir::Core::Mpu::regionCount());
+    }
+}}   // namespace Conformance
