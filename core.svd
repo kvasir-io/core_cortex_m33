@@ -3318,6 +3318,17 @@
                             <description>Cycle counter not supported</description>
                             <bitRange>[25:25]</bitRange>
                             <access>read-only</access>
+                            <!-- Kvasir: Armv8-M ARM DDI0553B.y D1.2.58 NOCYCCNT bit [25] (md l.74506): 0 cycle counter implemented, 1 none; values named as core_cortex_m4's -->
+                            <enumeratedValues>
+                                <enumeratedValue>
+                                    <description>Cycle counter supported</description>
+                                    <value>0</value>
+                                </enumeratedValue>
+                                <enumeratedValue>
+                                    <description>Cycle counter not supported</description>
+                                    <value>1</value>
+                                </enumeratedValue>
+                            </enumeratedValues>
                         </field>
                         <field>
                             <name>NOPRFCNT</name>
