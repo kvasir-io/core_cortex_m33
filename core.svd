@@ -285,7 +285,10 @@
                     <fields>
                         <field>
                             <name>PRI_%s</name>
-                            <description>Priority of interrupt 4n+m. The RP2350's Cortex-M33 implements the top four bits of each byte, [7:4]; the rest read as zero and ignore writes</description>
+                            <description
+                                >Priority of interrupt 4n+m. The RP2350's Cortex-M33 implements the top four bits of each byte, [7:4]; the
+                                rest read as zero and ignore writes</description
+                            >
                             <bitOffset>4</bitOffset>
                             <bitWidth>4</bitWidth>
                             <dim>4</dim>
@@ -788,6 +791,7 @@
                                 >System reset request. This bit allows software or a debugger to request a system reset</description
                             >
                             <bitRange>[2:2]</bitRange>
+                            <!-- Kvasir: a request, and how much it resets is the chip's: "AIRCR.SYSRESETREQ is used to request a Warm reset", not guaranteed to take place immediately (Armv8-M ARM DDI0553B.y B1.1 RWSZN, RHFRS). The RP2350's "resets only the core on which SYSRESETREQ is asserted, and not the wider system" (RP2350 datasheet 3.7.5 Table 209, md l.10142): the other core, the peripherals and the chip's reset records stay. -->
                             <enumeratedValues>
                                 <enumeratedValue>
                                     <description>Do not request a system reset</description>
@@ -2819,7 +2823,7 @@
              RLAR.PXN bit 4 is RES0 without Armv8.1-M, the Cortex-M33 is Armv8.0-M), their aliases MPU_RBAR_An / MPU_RLAR_An
              n = 1..3 (0xE000EDA4 ..; D1.2.172, D1.2.174) and MPU_MAIR0/1 (0xE000EDC0/4, Attr m at 8m+7:8m, md l.86067).
              Every field but RLAR.EN and the CTRL bits resets to an UNKNOWN value (resetMask). Word access only, privileged.
-             The RP2350's chip.svd has the same registers in its PPB block (RP2350 datasheet 3.7, Tables 232-236): the
+             The RP2350's chip.svd has the same registers in its PPB block (RP2350 datasheet 3.7, Tables 238-242): the
              core's are the ones core/Mpu.hpp names. -->
         <peripheral>
             <name>MPU</name>
@@ -2857,14 +2861,19 @@
                 <register>
                     <name>MPU Control Register</name>
                     <displayName>MPU_CTRL</displayName>
-                    <description>Enables the MPU, the system address map as background region for privileged accesses, and the MPU for priorities below 0</description>
+                    <description
+                        >Enables the MPU, the system address map as background region for privileged accesses, and the MPU for priorities
+                        below 0</description
+                    >
                     <addressOffset>0x04</addressOffset>
                     <access>read-write</access>
                     <resetValue>0x00000000</resetValue>
                     <fields>
                         <field>
                             <name>PRIVDEFENA</name>
-                            <description>Privileged default enable: the system address map for privileged accesses outside every region</description>
+                            <description
+                                >Privileged default enable: the system address map for privileged accesses outside every region</description
+                            >
                             <bitRange>[2:2]</bitRange>
                         </field>
                         <field>
@@ -2916,7 +2925,10 @@
                         </field>
                         <field>
                             <name>AP</name>
-                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <description
+                                >Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only,
+                                0b11 read-only any</description
+                            >
                             <bitRange>[2:1]</bitRange>
                         </field>
                         <field>
@@ -2973,7 +2985,10 @@
                         </field>
                         <field>
                             <name>AP</name>
-                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <description
+                                >Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only,
+                                0b11 read-only any</description
+                            >
                             <bitRange>[2:1]</bitRange>
                         </field>
                         <field>
@@ -3030,7 +3045,10 @@
                         </field>
                         <field>
                             <name>AP</name>
-                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <description
+                                >Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only,
+                                0b11 read-only any</description
+                            >
                             <bitRange>[2:1]</bitRange>
                         </field>
                         <field>
@@ -3087,7 +3105,10 @@
                         </field>
                         <field>
                             <name>AP</name>
-                            <description>Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only, 0b11 read-only any</description>
+                            <description
+                                >Access permissions: 0b00 read/write privileged only, 0b01 read/write any, 0b10 read-only privileged only,
+                                0b11 read-only any</description
+                            >
                             <bitRange>[2:1]</bitRange>
                         </field>
                         <field>
@@ -3291,7 +3312,10 @@
                 <register>
                     <name>Control register</name>
                     <displayName>DWT_CTRL</displayName>
-                    <description>Provides configuration and status information for the DWT unit, and used to control features of the unit</description>
+                    <description
+                        >Provides configuration and status information for the DWT unit, and used to control features of the
+                        unit</description
+                    >
                     <addressOffset>0x0</addressOffset>
                     <access>read-write</access>
                     <fields>
@@ -3338,7 +3362,10 @@
                         </field>
                         <field>
                             <name>CYCDISS</name>
-                            <description>Halt the cycle counter while the PE is in Secure state and Secure non-invasive debug is not allowed</description>
+                            <description
+                                >Halt the cycle counter while the PE is in Secure state and Secure non-invasive debug is not
+                                allowed</description
+                            >
                             <bitRange>[23:23]</bitRange>
                         </field>
                         <field>
